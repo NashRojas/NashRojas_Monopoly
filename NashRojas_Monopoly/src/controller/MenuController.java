@@ -43,7 +43,6 @@ public class MenuController {
         try {
             
             Juego juego = new Juego();
-
             
             for (int i = 1; i <= humanos; i++) {
                 juego.agregarJugador(new Jugador("Jugador " + i, false));
@@ -54,7 +53,8 @@ public class MenuController {
                 juego.agregarJugador(new Jugador("Bot " + i, true));
             }
 
-            
+            iniciarTablero(juego);
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainView.fxml"));
             Scene scene = new Scene(loader.load());
 
@@ -87,5 +87,11 @@ public class MenuController {
         );
 
         alert.showAndWait();
+    }
+
+    private void iniciarTablero(Juego juego) {
+        for (int i = 0; i < 40; i++) {
+            juego.setCasilla(i, new CasillaBasica(i, "Casilla " + i));
+        }
     }
 }

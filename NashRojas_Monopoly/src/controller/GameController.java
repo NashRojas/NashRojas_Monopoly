@@ -23,9 +23,9 @@ public class GameController {
 
     public void setJuego(Juego juego) {
         this.juego = juego;
+        tableroController.setJuego(juego);
         actualizarVista();
         log("Juego iniciado.");
-        tableroController.setJuego(juego);
     }
 
     @FXML
@@ -58,23 +58,14 @@ public class GameController {
         lblJugador.setText("Jugador: " + actual.getNombre());
         lblDinero.setText("Dinero: $" + actual.getDinero());
         lblPosicion.setText("Posicion: " + actual.getPosicion());
+
+        tableroController.actualizarJugadores(juego.getJugadores());
     }
 
     private void log(String mensaje) {
         txtLog.appendText(mensaje + "\n");
     }
 
-    private int[][] obtenerPosiciones(){
-        return new int[][] {
-            {10,0}, {10,1}, {10,2}, {10,3}, {10,4}, {10,5}, {10,6}, {10,7}, {10,8}, {10,9}, {10,10},
-
-            {9,10}, {8,10}, {7,10}, {6,10}, {5,10}, {4,10}, {3,10}, {2,10}, {1,10},{0,10},
-
-            {0,9}, {0,8}, {0,7}, {0,6}, {0,5}, {0,4}, {0,3}, {0,2}, {0,1},{0,0},
-
-            {1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}
-        };
-    }
 
     private String[] nombresCasillas = {
     "Salida","Mediterráneo","Comunidad","Báltica","Impuesto","Reading RR",
