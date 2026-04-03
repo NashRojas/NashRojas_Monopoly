@@ -15,16 +15,17 @@ public class GameController {
     private Label lblPosicion;
     @FXML 
     private TextArea txtLog;
+
     @FXML
-    private GridPane tableroController; 
+    private TableroController tableroController;
 
     private Juego juego;
 
     public void setJuego(Juego juego) {
-        System.out.println(tableroController);
         this.juego = juego;
         actualizarVista();
         log("Juego iniciado.");
+        tableroController.setJuego(juego);
     }
 
     @FXML
@@ -62,4 +63,29 @@ public class GameController {
     private void log(String mensaje) {
         txtLog.appendText(mensaje + "\n");
     }
+
+    private int[][] obtenerPosiciones(){
+        return new int[][] {
+            {10,0}, {10,1}, {10,2}, {10,3}, {10,4}, {10,5}, {10,6}, {10,7}, {10,8}, {10,9}, {10,10},
+
+            {9,10}, {8,10}, {7,10}, {6,10}, {5,10}, {4,10}, {3,10}, {2,10}, {1,10},{0,10},
+
+            {0,9}, {0,8}, {0,7}, {0,6}, {0,5}, {0,4}, {0,3}, {0,2}, {0,1},{0,0},
+
+            {1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}
+        };
+    }
+
+    private String[] nombresCasillas = {
+    "Salida","Mediterráneo","Comunidad","Báltica","Impuesto","Reading RR",
+    "Oriental","Suerte","Vermont","Connecticut","Cárcel",
+    "St. Charles","Electricidad","States","Virginia","Penn RR",
+    "St. James","Comunidad","Tennessee","New York","Libre",
+    "Kentucky","Suerte","Indiana","Illinois","B&O RR",
+    "Atlantic","Ventnor","Agua","Marvin","Ir a Cárcel",
+    "Pacific","Carolina Norte","Comunidad","Pennsylvania",
+    "Short Line","Suerte","Park Place","Impuesto Lujo","Boardwalk"
+    };
+
+
 }

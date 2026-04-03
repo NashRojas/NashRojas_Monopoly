@@ -2,11 +2,10 @@
 
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml"
+<GridPane fx:controller="controller.TableroController"
+        xmlns:fx="http://javafx.com/fxml"
         alignment="CENTER"
         hgap="2" vgap="2"
-        fx:id="gridTablero"
-        fx:controller="controller.TableroController">
-        
+        fx:id="gridTablero">   
 
 </GridPane>

@@ -18,7 +18,7 @@
 
 
     <center>
-        <fx:include source="TableroView.fxml" fx:id="tableroController"/> 
+        <fx:include source="TableroView.fxml" fx:id="tablero"/> 
     </center>
 
 
