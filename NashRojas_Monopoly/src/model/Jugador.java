@@ -9,16 +9,18 @@ public class Jugador {
     private int posicion;
     private boolean enCarcel;
     private int turnosEnCarcel;
+    private boolean esBot;
 
     private List<Propiedad> propiedades;
     private List<Servicio> servicios;
 
-    public Jugador(String nombre) {
+    public Jugador(String nombre, boolean esBot) {
         this.nombre = nombre;
         this.dinero = 1000; 
         this.posicion = 0; 
         this.enCarcel = false;
         this.turnosEnCarcel = 0;
+        this.esBot = esBot;
         this.propiedades = new ArrayList<>();
         this.servicios = new ArrayList<>();
     }
@@ -85,5 +87,9 @@ public class Jugador {
 
     public void setPosicion(int posicion) {
     this.posicion = posicion;
+    }
+
+    public boolean isBot() {
+        return esBot;
     }
 } 

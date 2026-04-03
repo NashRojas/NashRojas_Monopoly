@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+
+<VBox spacing="15" alignment="CENTER"
+        prefWidth="400" prefHeight="300"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="controller.MenuController">
+
+    <Label text="MONOPOLY" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <HBox spacing="10" alignment="CENTER">
+        <Label text="Jugadores reales:" />
+        <Spinner fx:id="spnHumanos"/>
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Label text="Bots:" />
+        <Spinner fx:id="spnBots"/>
+    </HBox>
+
+    <Button text="Jugar" onAction="#iniciarJuego"/>
+    <Button text="Ver Reglas" onAction="#mostrarReglas"/>
+
+    <Label fx:id="lblError"/>
+
+</VBox>
