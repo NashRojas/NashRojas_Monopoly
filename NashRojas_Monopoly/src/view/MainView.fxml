@@ -1,34 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Pos?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="controller.GameController">
 
-    <top>
-        <HBox spacing="20" alignment="CENTER" style="-fx-padding: 10;">
-            <Label fx:id="lblJugador" text="Jugador: -" />
-            <Label fx:id="lblDinero" text="Dinero: -" />
-            <Label fx:id="lblPosicion" text="Posicion: -" />
-        </HBox>
-    </top>
-
-
     <center>
-        <fx:include source="TableroView.fxml" fx:id="tablero"/> 
+        <GridPane hgap="15" vgap="15" alignment="CENTER" style="-fx-padding: 15;">
+
+            <VBox fx:id="panelJugador2" spacing="6" alignment="CENTER_LEFT" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                style="-fx-border-color: black; -fx-padding: 10;"
+                prefWidth="180" prefHeight="140"
+                maxWidth="180" maxHeight="140"
+                minWidth="180" minHeight="140">             
+                <Label text="Jugador 2"/>
+                <Label fx:id="lblNombreJ2" text="Nombre: -" />
+                <Label fx:id="lblDineroJ2" text="Dinero: -" />
+                <Label fx:id="lblCapitalJ2" text="Capital: -" />
+                <Label fx:id="lblPosicionJ2" text="Posicion: -" />
+            </VBox>
+
+            <fx:include fx:id="tablero" source="TableroView.fxml" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <VBox fx:id="panelJugador3" spacing="6" alignment="CENTER_LEFT" GridPane.rowIndex="0" GridPane.columnIndex="2"
+                style="-fx-border-color: black; -fx-padding: 10;"
+                prefWidth="180" prefHeight="140"
+                maxWidth="180" maxHeight="140"
+                minWidth="180" minHeight="140">
+                <Label text="Jugador 3"/>
+                <Label fx:id="lblNombreJ3" text="Nombre: -" />
+                <Label fx:id="lblDineroJ3" text="Dinero: -" />
+                <Label fx:id="lblCapitalJ3" text="Capital: -" />
+                <Label fx:id="lblPosicionJ3" text="Posicion: -" />
+            </VBox>
+
+            <VBox fx:id="panelJugador1" spacing="6" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                style="-fx-border-color: black; -fx-padding: 10;"
+                prefWidth="180" prefHeight="140"
+                maxWidth="180" maxHeight="140"
+                minWidth="180" minHeight="140">
+                <Label text="Jugador 1"/>
+                <Label fx:id="lblNombreJ1" text="Nombre: -" />
+                <Label fx:id="lblDineroJ1" text="Dinero: -" />
+                <Label fx:id="lblCapitalJ1" text="Capital: -" />
+                <Label fx:id="lblPosicionJ1" text="Posicion: -" />
+            </VBox>
+
+            <VBox spacing="10" alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-padding: 10;">
+                <Button text="Lanzar Turno" onAction="#lanzarTurno"/>
+                <TextArea fx:id="txtLog" prefWidth="420" prefHeight="120" editable="false"/>
+            </VBox>
+
+            <VBox fx:id="panelJugador4" spacing="6" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="2"
+                style="-fx-border-color: black; -fx-padding: 10;"
+                prefWidth="180" prefHeight="140"
+                maxWidth="180" maxHeight="140"
+                minWidth="180" minHeight="140">
+                <Label text="Jugador 4"/>
+                <Label fx:id="lblNombreJ4" text="Nombre: -" />
+                <Label fx:id="lblDineroJ4" text="Dinero: -" />
+                <Label fx:id="lblCapitalJ4" text="Capital: -" />
+                <Label fx:id="lblPosicionJ4" text="Posicion: -" />
+            </VBox>
+
+        </GridPane>
     </center>
-
-
-    <bottom>
-        <VBox spacing="10" style="-fx-padding: 10;">
-
-            <Button text="Lanzar Turno" onAction="#lanzarTurno"/>
-
-            <TextArea fx:id="txtLog" prefHeight="150" editable="false"/>
-        </VBox>
-    </bottom>
 
 </BorderPane>

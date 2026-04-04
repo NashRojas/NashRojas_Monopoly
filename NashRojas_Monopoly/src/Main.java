@@ -20,6 +20,7 @@ public class Main extends Application {
 
             stage.setTitle("Monopoly");
             stage.setScene(scene);
+            stage.setResizable(false);
             stage.show();
 
         } catch (Exception e) {
