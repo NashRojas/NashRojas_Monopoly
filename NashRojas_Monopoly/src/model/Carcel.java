@@ -8,8 +8,7 @@ public class Carcel extends Casilla {
 
     @Override
     public void ejecutarAccion(Jugador jugador, Juego juego) {
-        jugador.setEnCarcel(true);
-        jugador.setTurnosEnCarcel(3);
+
     }
     
 }

@@ -1,11 +1,10 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import java.util.List;
+import java.util.*;
+import javafx.scene.control.*;
 import model.*;
 
 public class GameController {
@@ -55,22 +54,56 @@ public class GameController {
 
         Jugador antes = juego.getJugadorActual();
 
+        String nombreJugador = antes.getNombre();
         int posicionAntes = antes.getPosicion();
         int dineroAntes = antes.getDinero();
+        boolean estabaEnCarcel = antes.isEnCarcel();
 
-        juego.ejecutarTurno();
+        int dado = juego.ejecutarTurno();
 
-        Jugador despues = juego.getJugadorActual(); // ya cambió turno
+        Casilla casillaActual = juego.getCasilla(antes.getPosicion());
+
+        if (dado > 0 && casillaActual instanceof Propiedad) {
+            manejarPropiedad(antes, (Propiedad) casillaActual, dineroAntes);
+        }
 
         actualizarVista();
 
-        log("Turno de " + antes.getNombre());
-        log("Posicion: " + posicionAntes + " → " + antes.getPosicion());
-        log("Dinero: $" + dineroAntes + " → $" + antes.getDinero());
+        log("Turno de " + nombreJugador);
+
+        if (dado > 0) {
+            log("Dado: " + dado);
+            log("Posicion: " + posicionAntes + " → " + antes.getPosicion());
+            log("Dinero: $" + dineroAntes + " → $" + antes.getDinero());
+        } else {
+            log("No tiro dado.");
+        }
+
+        if (!estabaEnCarcel && antes.isEnCarcel()) {
+            log(nombreJugador + " fue enviado a la carcel.");
+            log("Turnos restantes en carcel: " + antes.getTurnosEnCarcel());
+        }
+        else if (estabaEnCarcel && antes.isEnCarcel()) {
+            log(nombreJugador + " esta en carcel.");
+            log("Turnos restantes: " + antes.getTurnosEnCarcel());
+        }
+        else if (estabaEnCarcel && !antes.isEnCarcel()) {
+            log(nombreJugador + " sale de la carcel.");
+        }
+
+        if (casillaActual instanceof Propiedad) {
+            Propiedad p = (Propiedad) casillaActual;
+
+            if (p.getDueno() == antes) {
+                log(nombreJugador + " es dueno de " + p.getNombre() + ".");
+            } else if (p.getDueno() != null) {
+                log(nombreJugador + "pago renta de $" + p.calcularRenta() + " a" + p.getDueno().getNombre());
+            }
+        }
         log("-----------------------------------");
 
         if (juego.hayGanador()) {
-            log(" GANADOR: " + despues.getNombre());
+            log(" GANADOR: " + nombreJugador);
         }
     }
 
@@ -128,4 +161,45 @@ public class GameController {
         txtLog.appendText(mensaje + "\n");
     }
 
+    private void manejarPropiedad(Jugador jugador, Propiedad propiedad, int dineroAntes) {
+
+    if (propiedad.getDueno() == null) {
+
+        if (jugador.isBot()) {
+            if (jugador.getDinero() >= propiedad.getPrecio()) {
+                propiedad.comprar(jugador);
+                log(jugador.getNombre() + " compro " + propiedad.getNombre() + " por $" + propiedad.getPrecio());
+            }
+        } else {
+            if (jugador.getDinero() >= propiedad.getPrecio()) {
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Comprar propiedad");
+                alert.setHeaderText(jugador.getNombre() + ", has caido en " + propiedad.getNombre());
+                alert.setContentText(
+                    "Precio: $" + propiedad.getPrecio() + "\n" +
+                    "Renta actual: $" + propiedad.calcularRenta() + "\n" +
+                    "Nivel: " + propiedad.getNivelMejora() + "\n\n" +
+                    "Deseas comprar esta propiedad?"
+                );
+
+                ButtonType btnComprar = new ButtonType("Comprar");
+                ButtonType btnNoComprar = new ButtonType("No comprar", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                alert.getButtonTypes().setAll(btnComprar, btnNoComprar);
+
+                Optional<ButtonType> resultado = alert.showAndWait();
+
+                if (resultado.isPresent() && resultado.get() == btnComprar) {
+                    propiedad.comprar(jugador);
+                    log(jugador.getNombre() + " compro " + propiedad.getNombre() + " por $" + propiedad.getPrecio());
+                } else {
+                    log(jugador.getNombre() + " decidio no comprar " + propiedad.getNombre());
+                }
+            } else {
+                log(jugador.getNombre() + " no tiene dinero suficiente para comprar " + propiedad.getNombre());
+            }
+        }
+    }
+}
 }

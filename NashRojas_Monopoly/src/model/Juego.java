@@ -67,7 +67,7 @@ public class Juego {
         tablero[posicion].ejecutarAccion(jugador, this);
     }
 
-        public void ejecutarTurno() {
+        public int ejecutarTurno() {
 
         Jugador jugador = getJugadorActual();
 
@@ -80,7 +80,7 @@ public class Juego {
                     + jugador.getTurnosEnCarcel());
 
                 siguienteTurno();
-                return;
+                return 0;
 
             } else {
                 jugador.setEnCarcel(false);
@@ -94,6 +94,7 @@ public class Juego {
         verificarBancarrota();
 
         siguienteTurno();
+        return dado;
     }
 
         public void siguienteTurno() {
