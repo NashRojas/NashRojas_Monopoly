@@ -54,7 +54,10 @@
             </VBox>
 
             <VBox spacing="10" alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-padding: 10;">
-                <Button text="Lanzar Turno" onAction="#lanzarTurno"/>
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Ver precios y rentas" onAction="#mostrarPreciosRentas"/>
+                    <Button text="Lanzar Turno" onAction="#lanzarTurno"/>
+                </HBox>
                 <TextArea fx:id="txtLog" prefWidth="420" prefHeight="120" editable="false"/>
             </VBox>
 

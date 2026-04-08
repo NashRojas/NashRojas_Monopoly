@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import model.*;
 
 
@@ -50,12 +51,91 @@ public class TableroController {
 
         Casilla casilla = juego.getCasilla(posicion);
 
-        String texto = (casilla != null) ? casilla.getNombre() : "Casilla " + posicion;
+        String nombre = (casilla != null) ? casilla.getNombre() : "Casilla " + posicion;
 
-        Label label = new Label(texto);
-        label.setWrapText(true);
+        Label lblNombre = new Label(nombre);
+        lblNombre.setWrapText(true);
+        lblNombre.setStyle("-fx-font-size: 10px; -fx-font-weight: bold;");
 
-        StackPane celda = new StackPane(label);
+        VBox contenido = new VBox(3);
+        contenido.getChildren().add(lblNombre);
+
+        if (casilla instanceof Propiedad) {
+            Propiedad p = (Propiedad) casilla;
+
+            String dueno = (p.getDueno() != null) ? p.getDueno().getNombre() : "Libre";
+            Label lblDueno = new Label("Dueño: " + dueno);
+            Label lblNivel = new Label("Nivel: " + p.getNivelMejora());
+
+            lblDueno.setStyle("-fx-font-size: 9px;");
+            lblNivel.setStyle("-fx-font-size: 9px;");
+
+            contenido.getChildren().addAll(lblDueno, lblNivel);
+
+            lblNombre.setWrapText(true);
+            lblNombre.setMaxWidth(60);
+
+            String color = p.getColor();
+
+            String colorFX;
+
+            switch (color) {
+                case "marron":
+                    colorFX = "#a1887f";
+                    break;
+                case "celeste":
+                    colorFX = "#81d4fa";
+                    break;
+                case "rosado":
+                    colorFX = "#f48fb1";
+                    break;
+                case "naranja":
+                    colorFX = "#ffb74d";
+                    break;
+                case "rojo":
+                    colorFX = "#da4f4f";
+                    break;
+                case "amarillo":
+                    colorFX = "#fff176";
+                    break;
+                case "verde":
+                    colorFX = "#81c784";
+                    break;
+                case "azul":
+                    colorFX = "#64b5f6";
+                    break;
+                default:
+                    colorFX = "#e0e0e0";
+            }
+
+            contenido.setStyle("-fx-background-color: " + colorFX + "; -fx-padding: 3;");
+        } 
+        else if (casilla instanceof Impuesto) {
+            Label lblTipo = new Label("Impuesto");
+            lblTipo.setStyle("-fx-font-size: 9px;");
+            contenido.getChildren().add(lblTipo);
+            contenido.setStyle("-fx-background-color: #ffebee;");
+        } 
+        else if (casilla instanceof Salida) {
+            Label lblTipo = new Label("Salida");
+            lblTipo.setStyle("-fx-font-size: 9px;");
+            contenido.getChildren().add(lblTipo);
+            contenido.setStyle("-fx-background-color: #e3f2fd;");
+        } 
+        else if (casilla instanceof Carcel) {
+            Label lblTipo = new Label("Carcel");
+            lblTipo.setStyle("-fx-font-size: 9px;");
+            contenido.getChildren().add(lblTipo);
+            contenido.setStyle("-fx-background-color: #fff8e1;");
+        } 
+        else if (casilla instanceof IrACarcel) {
+            Label lblTipo = new Label("Ir a carcel");
+            lblTipo.setStyle("-fx-font-size: 9px;");
+            contenido.getChildren().add(lblTipo);
+            contenido.setStyle("-fx-background-color: #fbe9e7;");
+        }
+
+        StackPane celda = new StackPane(contenido);
         celda.setPrefSize(70, 70);
         celda.setStyle("-fx-border-color: black; -fx-alignment: center;");
 

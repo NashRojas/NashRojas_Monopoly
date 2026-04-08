@@ -202,4 +202,67 @@ public class GameController {
         }
     }
 }
+
+    @FXML
+    private void mostrarPreciosRentas() {
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Precios y rentas");
+        dialog.setHeaderText("Consulta por grupo de color");
+
+        ComboBox<String> comboColores = new ComboBox<>();
+        comboColores.getItems().addAll(
+            "marron", "azul", "rojo", "verde", "amarillo", "naranja"
+        );
+        comboColores.setValue("marron");
+
+        TextArea txtInfo = new TextArea();
+        txtInfo.setEditable(false);
+        txtInfo.setWrapText(true);
+        txtInfo.setPrefWidth(420);
+        txtInfo.setPrefHeight(260);
+
+        actualizarTextoGrupo(comboColores.getValue(), txtInfo);
+
+        comboColores.setOnAction(e -> {
+            actualizarTextoGrupo(comboColores.getValue(), txtInfo);
+        });
+
+        VBox contenido = new VBox(10);
+        contenido.getChildren().addAll(comboColores, txtInfo);
+
+        dialog.getDialogPane().setContent(contenido);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+
+        dialog.showAndWait();
+    }
+
+
+    private void actualizarTextoGrupo(String colorSeleccionado, TextArea txtInfo) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 40; i++) {
+            Casilla casilla = juego.getCasilla(i);
+
+            if (casilla instanceof Propiedad) {
+                Propiedad p = (Propiedad) casilla;
+
+                if (p.getColor().equalsIgnoreCase(colorSeleccionado)) {
+                    int renta0 = p.calcularRenta();
+                    int renta1 = (int) (renta0 * 1.5);
+                    int renta2 = (int) (renta0 * 2.0);
+                    int renta3 = (int) (renta0 * 2.5);
+
+                    sb.append(p.getNombre()).append("\n");
+                    sb.append("Precio: $").append(p.getPrecio()).append("\n");
+                    sb.append("Renta nivel 0: $").append(renta0).append("\n");
+                    sb.append("Renta nivel 1: $").append(renta1).append("\n");
+                    sb.append("Renta nivel 2: $").append(renta2).append("\n");
+                    sb.append("Renta nivel 3: $").append(renta3).append("\n");
+                    sb.append("-----------------------------------\n");
+                }
+            }
+        }
+
+        txtInfo.setText(sb.toString());
+    }
 }

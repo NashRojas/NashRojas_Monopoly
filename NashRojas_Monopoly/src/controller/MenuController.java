@@ -107,18 +107,18 @@ public class MenuController {
 
         juego.setCasilla(10, new Carcel(10, "Carcel"));
 
-        juego.setCasilla(11, new CasillaEvento(11, "Evento"));
+        juego.setCasilla(11, new Propiedad(11, "Bella Vista", 250, 60, "rojo"));
 
-        juego.setCasilla(12, new Propiedad(12, "Bella Vista", 250, 60, "rojo"));
+        juego.setCasilla(12, new Servicio(12, "EdeSur", 150));
         juego.setCasilla(13, new Propiedad(13, "Ensanche Ozama", 250, 60, "rojo"));
 
-        juego.setCasilla(14, new CasillaEvento(14, "Evento"));
-        juego.setCasilla(15, new Propiedad(15, "Los Mina", 300, 70, "rojo"));
+        juego.setCasilla(14, new Propiedad(14, "Los Mina", 300, 70, "rojo"));
+        juego.setCasilla(15, new Propiedad(15, "Villa Mella", 300, 70, "rojo"));
 
-        juego.setCasilla(16, new Servicio(16, "Estacion Edesur", 150));
+        juego.setCasilla(16, new Propiedad(16, "Santiago", 350, 85, "verde"));
 
-        juego.setCasilla(17, new Propiedad(17, "Santiago", 350, 85, "verde"));
-        juego.setCasilla(18, new Propiedad(18, "La Vega", 350, 85, "verde"));
+        juego.setCasilla(17, new Propiedad(17, "Puerto Plata", 350, 85, "verde"));
+        juego.setCasilla(18, new Propiedad(18, "La Vega", 360, 90, "verde"));
 
         juego.setCasilla(19, new Impuesto(19, "DGII", 80));
 
@@ -129,17 +129,18 @@ public class MenuController {
         juego.setCasilla(22, new Propiedad(22, "San Francisco", 380, 95, "verde"));
         juego.setCasilla(23, new Propiedad(23, "Moca", 420, 110, "amarillo"));
 
-        juego.setCasilla(24, new CasillaEvento(24, "Evento"));
+        juego.setCasilla(24, new Propiedad(24, "salcedo", 430, 115, "amarillo"));
 
         juego.setCasilla(25, new Propiedad(25, "Tres Fuego", 450, 125, "amarillo"));
 
-        juego.setCasilla(26, new CasillaEvento(26, "Evento"));
 
-        juego.setCasilla(27, new Propiedad(27, "Punta Cana", 450, 125, "amarillo"));
+        juego.setCasilla(26, new Propiedad(26, "Punta Cana", 450, 125, "amarillo"));
+
+        juego.setCasilla(27, new Propiedad(27, "Evento", 460, 130, "amarillo"));
 
         juego.setCasilla(28, new CasillaEvento(28, "Evento"));
 
-        juego.setCasilla(29, new CasillaEvento(29, "Evento"));
+        juego.setCasilla(29, new Propiedad(29, "La Romana", 470, 130, "amarillo"));
 
         juego.setCasilla(30, new IrACarcel(30, "Ir a Carcel", 10));
 
@@ -158,6 +159,6 @@ public class MenuController {
 
         juego.setCasilla(38, new Impuesto(38, "DGII", 120));
 
-        juego.setCasilla(39, new CasillaEvento(39, "Evento"));
+        juego.setCasilla(39, new Propiedad(39, "Zona Colonial", 650, 220, "azul"));
     }
 }
