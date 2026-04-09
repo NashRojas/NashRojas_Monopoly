@@ -43,6 +43,16 @@ public class GameController {
 
     @FXML private Label lblDado;
 
+    @FXML private Label barraJ1;
+    @FXML private Label barraJ2;
+    @FXML private Label barraJ3;
+    @FXML private Label barraJ4;
+
+    @FXML private Label lblEstadoJ1;
+    @FXML private Label lblEstadoJ2;
+    @FXML private Label lblEstadoJ3;
+    @FXML private Label lblEstadoJ4;
+
     private Juego juego;
 
     public void setJuego(Juego juego) {
@@ -140,33 +150,34 @@ public class GameController {
     private void actualizarVista() {
         tableroController.actualizarJugadores(juego.getJugadores());
         actualizarPanelesJugadores();
+        actualizarEstiloPaneles();
     }
 
     private void actualizarPanelesJugadores() {
         List<Jugador> jugadores = juego.getJugadores();
 
-        limpiarPanel(panelJugador1, lblNombreJ1, lblDineroJ1, lblCapitalJ1, lblPosicionJ1);
-        limpiarPanel(panelJugador2, lblNombreJ2, lblDineroJ2, lblCapitalJ2, lblPosicionJ2);
-        limpiarPanel(panelJugador3, lblNombreJ3, lblDineroJ3, lblCapitalJ3, lblPosicionJ3);
-        limpiarPanel(panelJugador4, lblNombreJ4, lblDineroJ4, lblCapitalJ4, lblPosicionJ4);
+        limpiarPanel(panelJugador1, lblNombreJ1, lblDineroJ1, lblCapitalJ1, lblPosicionJ1, lblEstadoJ1);
+        limpiarPanel(panelJugador2, lblNombreJ2, lblDineroJ2, lblCapitalJ2, lblPosicionJ2, lblEstadoJ2);
+        limpiarPanel(panelJugador3, lblNombreJ3, lblDineroJ3, lblCapitalJ3, lblPosicionJ3, lblEstadoJ3);
+        limpiarPanel(panelJugador4, lblNombreJ4, lblDineroJ4, lblCapitalJ4, lblPosicionJ4, lblEstadoJ4);
 
         if (jugadores.size() > 0) {
-            llenarPanel(jugadores.get(0), panelJugador1, lblNombreJ1, lblDineroJ1, lblCapitalJ1, lblPosicionJ1);
+            llenarPanel(jugadores.get(0), panelJugador1, lblNombreJ1, lblDineroJ1, lblCapitalJ1, lblPosicionJ1, lblEstadoJ1);
         }
         if (jugadores.size() > 1) {
-            llenarPanel(jugadores.get(1), panelJugador2, lblNombreJ2, lblDineroJ2, lblCapitalJ2, lblPosicionJ2);
+            llenarPanel(jugadores.get(1), panelJugador2, lblNombreJ2, lblDineroJ2, lblCapitalJ2, lblPosicionJ2, lblEstadoJ2);
         }
         if (jugadores.size() > 2) {
-            llenarPanel(jugadores.get(2), panelJugador3, lblNombreJ3, lblDineroJ3, lblCapitalJ3, lblPosicionJ3);
+            llenarPanel(jugadores.get(2), panelJugador3, lblNombreJ3, lblDineroJ3, lblCapitalJ3, lblPosicionJ3, lblEstadoJ3);
         }
         if (jugadores.size() > 3) {
-            llenarPanel(jugadores.get(3), panelJugador4, lblNombreJ4, lblDineroJ4, lblCapitalJ4, lblPosicionJ4);
+            llenarPanel(jugadores.get(3), panelJugador4, lblNombreJ4, lblDineroJ4, lblCapitalJ4, lblPosicionJ4, lblEstadoJ4);
         }
     }
 
 
     private void llenarPanel(Jugador jugador, VBox panel, Label lblNombre, Label lblDinero,
-        Label lblCapital, Label lblPosicion) {
+        Label lblCapital, Label lblPosicion, Label lblEstado ) {
         panel.setVisible(true);
         panel.setManaged(true);
 
@@ -174,10 +185,11 @@ public class GameController {
         lblDinero.setText("Dinero: $" + jugador.getDinero());
         lblCapital.setText("Capital: $" + juego.calcularCapital(jugador));
         lblPosicion.setText("Posicion: " + jugador.getPosicion());
+        lblEstado.setText("Estado: " + obtenerEstadoJugador(jugador));
     }
 
     private void limpiarPanel(VBox panel, Label lblNombre, Label lblDinero,
-        Label lblCapital, Label lblPosicion) {
+        Label lblCapital, Label lblPosicion, Label lblEstado) {
         panel.setVisible(false);
         panel.setManaged(false);
 
@@ -185,6 +197,7 @@ public class GameController {
         lblDinero.setText("Dinero: -");
         lblCapital.setText("Capital: -");
         lblPosicion.setText("Posicion: -");
+        lblEstado.setText("Estado: -");
     }
 
     private void log(String mensaje) {
@@ -392,5 +405,50 @@ public class GameController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void actualizarEstiloPaneles() {
+        java.util.List<Jugador> jugadores = juego.getJugadores();
+
+        resetearPanel(panelJugador1, barraJ1);
+        resetearPanel(panelJugador2, barraJ2);
+        resetearPanel(panelJugador3, barraJ3);
+        resetearPanel(panelJugador4, barraJ4);
+
+        if (jugadores.size() > 0) aplicarColorPanel(jugadores.get(0), panelJugador1, barraJ1);
+        if (jugadores.size() > 1) aplicarColorPanel(jugadores.get(1), panelJugador2, barraJ2);
+        if (jugadores.size() > 2) aplicarColorPanel(jugadores.get(2), panelJugador3, barraJ3);
+        if (jugadores.size() > 3) aplicarColorPanel(jugadores.get(3), panelJugador4, barraJ4);
+
+        Jugador actual = juego.getJugadorActual();
+
+        if (jugadores.size() > 0 && jugadores.get(0) == actual) resaltarTurno(panelJugador1);
+        if (jugadores.size() > 1 && jugadores.get(1) == actual) resaltarTurno(panelJugador2);
+        if (jugadores.size() > 2 && jugadores.get(2) == actual) resaltarTurno(panelJugador3);
+        if (jugadores.size() > 3 && jugadores.get(3) == actual) resaltarTurno(panelJugador4);
+    }
+
+    private void aplicarColorPanel(Jugador jugador, VBox panel, Label barra) {
+        barra.setStyle("-fx-background-color: " + jugador.getColor() + ";");
+        panel.setStyle("-fx-border-color: black; -fx-padding: 10;");
+    }
+
+    private void resetearPanel(VBox panel, Label barra) {
+        barra.setStyle("-fx-background-color: transparent;");
+        panel.setStyle("-fx-border-color: black; -fx-padding: 10;");
+    }
+
+    private void resaltarTurno(VBox panel) {
+        panel.setStyle("-fx-border-color: gold; -fx-border-width: 3; -fx-padding: 10;");
+    }
+
+    private String obtenerEstadoJugador(Jugador jugador) {
+        if (jugador.estaEnBancarrota()) {
+            return "En bancarrota";
+        }
+        if (jugador.isEnCarcel()) {
+            return "En carcel";
+        }
+        return "Activo";
     }
 }

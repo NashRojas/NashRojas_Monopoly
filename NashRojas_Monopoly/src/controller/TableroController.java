@@ -75,8 +75,13 @@ public class TableroController {
                 barraDueno.setStyle("-fx-background-color: transparent;");
             }
 
-            Label lblRenta = new Label("$" + p.calcularRenta());
-            lblRenta.setStyle("-fx-font-size: 9px; -fx-font-weight: bold;");
+            Label lblPrecio;
+            if (p.getDueno() == null) {
+                lblPrecio = new Label("Compra: $" + p.getPrecio());
+            } else {
+                lblPrecio = new Label("Renta: $" + p.calcularRenta());
+            }
+            lblPrecio.setStyle("-fx-font-size: 9px; -fx-font-weight: bold;");
 
             Label lblNivel = new Label("Nivel: " + p.getNivelMejora());
             lblNivel.setStyle("-fx-font-size: 8px;");
@@ -112,7 +117,7 @@ public class TableroController {
                 default:
                     colorFX = "#e0e0e0";
             }
-            contenido.getChildren().addAll(barraDueno, lblNombre, lblRenta, lblNivel);
+            contenido.getChildren().addAll(barraDueno, lblNombre, lblPrecio, lblNivel);
             contenido.setStyle("-fx-background-color: " + colorFX + "; -fx-padding: 3;");
             contenido.setAlignment(Pos.CENTER);
         } 
