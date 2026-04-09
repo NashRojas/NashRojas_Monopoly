@@ -96,10 +96,10 @@ public class MenuController {
 
         juego.setCasilla(1, new Propiedad(1, "Villa Duarte", 200, 50, "marron"));
         juego.setCasilla(2, new CasillaEvento(2, "Evento"));
-        juego.setCasilla(3, new Propiedad(3, "Avenida Papolo", 100, 20, "marron"));
+        juego.setCasilla(3, new Propiedad(3, "Av. Papolo", 100, 20, "marron"));
 
         juego.setCasilla(4, new Impuesto(4, "DGII", 200));
-        juego.setCasilla(5, new Servicio(5, "Estacion Edenorte", 150));
+        juego.setCasilla(5, new Servicio(5, "Edenorte", 150));
 
         juego.setCasilla(6, new Propiedad(6, "Gazcue", 200, 40, "azul"));
         juego.setCasilla(7, new CasillaEvento(7, "Evento"));
@@ -138,7 +138,7 @@ public class MenuController {
 
         juego.setCasilla(26, new Propiedad(26, "Punta Cana", 450, 125, "amarillo"));
 
-        juego.setCasilla(27, new Propiedad(27, "Evento", 460, 130, "amarillo"));
+        juego.setCasilla(27, new Propiedad(27, "Bavaro", 460, 130, "amarillo"));
 
         juego.setCasilla(28, new CasillaEvento(28, "Evento"));
 

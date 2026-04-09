@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -74,11 +75,11 @@ public class TableroController {
                 barraDueno.setStyle("-fx-background-color: transparent;");
             }
 
-            Label lblRenta = new Label("Renta: $" + p.calcularRenta());
+            Label lblRenta = new Label("$" + p.calcularRenta());
             lblRenta.setStyle("-fx-font-size: 9px; -fx-font-weight: bold;");
 
             Label lblNivel = new Label("Nivel: " + p.getNivelMejora());
-            lblNivel.setStyle("-fx-font-size: 9px;");
+            lblNivel.setStyle("-fx-font-size: 8px;");
 
             String color = p.getColor();
             String colorFX;
@@ -113,6 +114,7 @@ public class TableroController {
             }
             contenido.getChildren().addAll(barraDueno, lblNombre, lblRenta, lblNivel);
             contenido.setStyle("-fx-background-color: " + colorFX + "; -fx-padding: 3;");
+            contenido.setAlignment(Pos.CENTER);
         } 
 
         else if (casilla instanceof Impuesto) {
@@ -140,7 +142,7 @@ public class TableroController {
             contenido.setStyle("-fx-background-color: #fbe9e7;");
         }
         else if (casilla instanceof OportunidadNegocio) {
-            Label lblTipo = new Label("Negocio");
+            Label lblTipo = new Label("📈Negocio");
             lblTipo.setStyle("-fx-font-size: 9px;");
             contenido.getChildren().add(lblTipo);
             contenido.setStyle("-fx-background-color: #d1c3e9; -fx-padding: 3;");

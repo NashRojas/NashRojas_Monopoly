@@ -41,6 +41,8 @@ public class GameController {
     @FXML private Label lblCapitalJ4;
     @FXML private Label lblPosicionJ4;
 
+    @FXML private Label lblDado;
+
     private Juego juego;
 
     public void setJuego(Juego juego) {
@@ -48,6 +50,7 @@ public class GameController {
         tableroController.setJuego(juego);
         actualizarVista();
         log("Juego iniciado.");
+        lblDado.setText("Dado: -");
     }
 
     @FXML
@@ -61,6 +64,11 @@ public class GameController {
         boolean estabaEnCarcel = antes.isEnCarcel();
 
         int dado = juego.ejecutarTurno();
+        if (dado > 0) {
+            lblDado.setText("Dado: " + dado);
+        } else {
+            lblDado.setText("Dado: -");
+        }
 
         Casilla casillaActual = juego.getCasilla(antes.getPosicion());
 
