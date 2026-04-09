@@ -72,6 +72,24 @@ public class GameController {
 
         Casilla casillaActual = juego.getCasilla(antes.getPosicion());
 
+        if (casillaActual instanceof CasillaEvento) {
+            CasillaEvento evento = (CasillaEvento) casillaActual;
+
+            log(nombreJugador + "cayo en Evento");
+
+            if (evento.getUltimoMensaje() != null) {
+                log("Evento: " + evento.getUltimoMensaje());
+            }
+
+            if (!antes.isBot()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Evento");
+                alert.setHeaderText(nombreJugador + ", has caido en una casilla de evento.");
+                alert.setContentText(evento.getUltimoMensaje());
+                alert.showAndWait();
+            }
+        }
+
         if (dado > 0 && casillaActual instanceof Propiedad) {
             manejarPropiedad(antes, (Propiedad) casillaActual, dineroAntes);
         }
