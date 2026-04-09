@@ -82,4 +82,11 @@ public class Propiedad extends Casilla {
     public int getPrecio() {
     return precio;
     }
+
+    public void mejorarConCostoPersonalizado(Jugador jugador, int costo) {
+        if (nivelMejora < 3 && jugador.getDinero() >= costo) {
+            jugador.pagar(costo);
+            nivelMejora++;
+        }
+    }
 }

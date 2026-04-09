@@ -7,6 +7,7 @@ import java.util.*;
 import javafx.scene.control.*;
 import model.*;
 
+
 public class GameController {
     
     @FXML 
@@ -65,6 +66,9 @@ public class GameController {
 
         if (dado > 0 && casillaActual instanceof Propiedad) {
             manejarPropiedad(antes, (Propiedad) casillaActual, dineroAntes);
+        }
+        if (dado > 0 && casillaActual instanceof OportunidadNegocio) {
+            manejarOportunidadNegocio(antes);
         }
 
         actualizarVista();
@@ -264,5 +268,103 @@ public class GameController {
         }
 
         txtInfo.setText(sb.toString());
+    }
+
+    private void manejarOportunidadNegocio(Jugador jugador) {
+
+        if (jugador.getPropiedades().isEmpty()) {
+            log(jugador.getNombre() + " cayo en Inapa, pero no tiene propiedades para mejorar.");
+            return;
+        }
+
+        if (jugador.isBot()) {
+            for (Propiedad p : jugador.getPropiedades()) {
+                if (p.getNivelMejora() < 3) {
+                    int costoOriginal = obtenerCostoMejoraSegunNivel(p.getNivelMejora());
+                    int costoConDescuento = costoOriginal / 2;
+
+                    if (jugador.getDinero() >= costoConDescuento) {
+                        jugador.pagar(costoConDescuento);
+                        aumentarNivelDirecto(p);
+                        log(jugador.getNombre() + " aprovecho Inapa y mejoro " + p.getNombre() +
+                            " pagando $" + costoConDescuento);
+                        return;
+                    }
+                }
+            }
+
+            log(jugador.getNombre() + " cayo en Inapa, pero no pudo mejorar ninguna propiedad.");
+            return;
+        }
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>();
+        dialog.setTitle("Oportunidad de negocio");
+        dialog.setHeaderText(jugador.getNombre() + " cayo en Inapa");
+        dialog.setContentText("Elige una propiedad para mejorar con 50% de descuento:");
+
+        for (Propiedad p : jugador.getPropiedades()) {
+            if (p.getNivelMejora() < 3) {
+                int costoOriginal = obtenerCostoMejoraSegunNivel(p.getNivelMejora());
+                int costoConDescuento = costoOriginal / 2;
+                dialog.getItems().add(p.getNombre() + " - Costo: $" + costoConDescuento);
+            }
+        }
+
+        if (dialog.getItems().isEmpty()) {
+            log(jugador.getNombre() + " cayo en Inapa, pero ya todas sus propiedades estan al maximo.");
+            return;
+        }
+
+        Optional<String> resultado = dialog.showAndWait();
+
+        if (resultado.isPresent()) {
+            String seleccion = resultado.get();
+
+            for (Propiedad p : jugador.getPropiedades()) {
+                if (seleccion.startsWith(p.getNombre())) {
+                    int costoOriginal = obtenerCostoMejoraSegunNivel(p.getNivelMejora());
+                    int costoConDescuento = costoOriginal / 2;
+
+                    if (jugador.getDinero() >= costoConDescuento) {
+                        jugador.pagar(costoConDescuento);
+                        aumentarNivelDirecto(p);
+                        log(jugador.getNombre() + " mejoro " + p.getNombre() +
+                            " con descuento de Inapa por $" + costoConDescuento);
+                    } else {
+                        log(jugador.getNombre() + " no tiene dinero suficiente para mejorar " + p.getNombre());
+                    }
+                    break;
+                }
+            }
+        } else {
+            log(jugador.getNombre() + " decidio no usar la oportunidad de negocio.");
+        }
+    }
+
+    private int obtenerCostoMejoraSegunNivel(int nivelActual) {
+        switch (nivelActual) {
+            case 0:
+                return 100;
+            case 1:
+                return 150;
+            case 2:
+                return 200;
+            default:
+                return 0;
+        }
+    }
+
+    private void aumentarNivelDirecto(Propiedad propiedad) {
+        try {
+            java.lang.reflect.Field field = Propiedad.class.getDeclaredField("nivelMejora");
+            field.setAccessible(true);
+            int nivelActual = (int) field.get(propiedad);
+
+            if (nivelActual < 3) {
+                field.set(propiedad, nivelActual + 1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

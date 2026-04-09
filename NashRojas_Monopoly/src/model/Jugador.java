@@ -10,17 +10,19 @@ public class Jugador {
     private boolean enCarcel;
     private int turnosEnCarcel;
     private boolean esBot;
+    private String color;
 
     private List<Propiedad> propiedades;
     private List<Servicio> servicios;
 
-    public Jugador(String nombre, boolean esBot) {
+    public Jugador(String nombre, boolean esBot, String color) {
         this.nombre = nombre;
         this.dinero = 1000; 
         this.posicion = 0; 
         this.enCarcel = false;
         this.turnosEnCarcel = 0;
         this.esBot = esBot;
+        this.color = color;
         this.propiedades = new ArrayList<>();
         this.servicios = new ArrayList<>();
     }
@@ -91,5 +93,9 @@ public class Jugador {
 
     public boolean isBot() {
         return esBot;
+    }
+
+    public String getColor() {
+        return color;
     }
 } 

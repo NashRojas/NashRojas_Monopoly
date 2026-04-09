@@ -55,28 +55,32 @@ public class TableroController {
 
         Label lblNombre = new Label(nombre);
         lblNombre.setWrapText(true);
-        lblNombre.setStyle("-fx-font-size: 10px; -fx-font-weight: bold;");
+        lblNombre.setMaxWidth(60);
+        lblNombre.setStyle("-fx-font-size: 9px; -fx-font-weight: bold;");
 
-        VBox contenido = new VBox(3);
-        contenido.getChildren().add(lblNombre);
+        VBox contenido = new VBox(2);
 
         if (casilla instanceof Propiedad) {
             Propiedad p = (Propiedad) casilla;
 
-            String dueno = (p.getDueno() != null) ? p.getDueno().getNombre() : "Libre";
-            Label lblDueno = new Label("Dueño: " + dueno);
-            Label lblNivel = new Label("Nivel: " + p.getNivelMejora());
+            Label barraDueno = new Label();
+            barraDueno.setMinHeight(6);
+            barraDueno.setMaxWidth(Double.MAX_VALUE);
 
-            lblDueno.setStyle("-fx-font-size: 9px;");
+            if (p.getDueno() != null) {
+                String colorDueno = p.getDueno().getColor();
+                barraDueno.setStyle("-fx-background-color: " + colorDueno + ";");
+            } else {
+                barraDueno.setStyle("-fx-background-color: transparent;");
+            }
+
+            Label lblRenta = new Label("Renta: $" + p.calcularRenta());
+            lblRenta.setStyle("-fx-font-size: 9px; -fx-font-weight: bold;");
+
+            Label lblNivel = new Label("Nivel: " + p.getNivelMejora());
             lblNivel.setStyle("-fx-font-size: 9px;");
 
-            contenido.getChildren().addAll(lblDueno, lblNivel);
-
-            lblNombre.setWrapText(true);
-            lblNombre.setMaxWidth(60);
-
             String color = p.getColor();
-
             String colorFX;
 
             switch (color) {
@@ -107,9 +111,10 @@ public class TableroController {
                 default:
                     colorFX = "#e0e0e0";
             }
-
+            contenido.getChildren().addAll(barraDueno, lblNombre, lblRenta, lblNivel);
             contenido.setStyle("-fx-background-color: " + colorFX + "; -fx-padding: 3;");
         } 
+
         else if (casilla instanceof Impuesto) {
             Label lblTipo = new Label("Impuesto");
             lblTipo.setStyle("-fx-font-size: 9px;");
@@ -134,11 +139,21 @@ public class TableroController {
             contenido.getChildren().add(lblTipo);
             contenido.setStyle("-fx-background-color: #fbe9e7;");
         }
+        else if (casilla instanceof OportunidadNegocio) {
+            Label lblTipo = new Label("Negocio");
+            lblTipo.setStyle("-fx-font-size: 9px;");
+            contenido.getChildren().add(lblTipo);
+            contenido.setStyle("-fx-background-color: #d1c3e9; -fx-padding: 3;");
+        }
+        else {
+            contenido.getChildren().add(lblNombre);
+            contenido.setStyle("-fx-padding: 3;");
+        }
 
         StackPane celda = new StackPane(contenido);
         celda.setPrefSize(70, 70);
-        celda.setStyle("-fx-border-color: black; -fx-alignment: center;");
-
+        celda.setStyle("-fx-border-color: black; -fx-aligment: center;");
+    
         gridTablero.add(celda, columna, fila);
     }
 

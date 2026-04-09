@@ -43,14 +43,16 @@ public class MenuController {
         try {
             
             Juego juego = new Juego();
-            
+            String[] colores = {"red", "blue", "green", "orange"};
+            int indexColor = 0;
+
             for (int i = 1; i <= humanos; i++) {
-                juego.agregarJugador(new Jugador("Jugador " + i, false));
+                juego.agregarJugador(new Jugador("Jugador " + i, false, colores[indexColor++]));
             }
 
             
             for (int i = 1; i <= bots; i++) {
-                juego.agregarJugador(new Jugador("Bot " + i, true));
+                juego.agregarJugador(new Jugador("Bot " + i, true, colores[indexColor++]));
             }
 
             iniciarTablero(juego);
@@ -122,7 +124,7 @@ public class MenuController {
 
         juego.setCasilla(19, new Impuesto(19, "DGII", 80));
 
-        juego.setCasilla(20, new Servicio(20, "Inapa", 150));
+        juego.setCasilla(20, new OportunidadNegocio(20, "Oportunidad"));
 
         juego.setCasilla(21, new CasillaEvento(21, "Evento"));
         
