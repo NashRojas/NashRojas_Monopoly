@@ -53,7 +53,10 @@ public class GameController {
     @FXML private Label lblEstadoJ3;
     @FXML private Label lblEstadoJ4;
 
+    @FXML private Button btnLanzarTurno;
+
     private Juego juego;
+    private boolean juegoFinalizado = false;
 
     public void setJuego(Juego juego) {
         this.juego = juego;
@@ -65,6 +68,11 @@ public class GameController {
 
     @FXML
     private void lanzarTurno() {
+
+        if (juegoFinalizado) {
+            log("El juego ha finalizado. Reinicia para jugar de nuevo.");
+            return;
+        }
 
         Jugador antes = juego.getJugadorActual();
 
@@ -101,7 +109,14 @@ public class GameController {
         }
 
         if (dado > 0 && casillaActual instanceof Propiedad) {
-            manejarPropiedad(antes, (Propiedad) casillaActual, dineroAntes);
+            Propiedad propiedadActual = (Propiedad) casillaActual;
+
+            if (propiedadActual.getDueno() == null) {
+                manejarPropiedad(antes, propiedadActual, dineroAntes);
+            } else if (propiedadActual.getDueno() == antes) {
+                manejarMejoraPropiedad(antes, propiedadActual);
+            }
+
         }
         if (dado > 0 && casillaActual instanceof OportunidadNegocio) {
             manejarOportunidadNegocio(antes);
@@ -143,8 +158,21 @@ public class GameController {
         log("-----------------------------------");
 
         if (juego.hayGanador()) {
-            log(" GANADOR: " + nombreJugador);
+            juegoFinalizado = true;
+
+            Jugador ganador = juego.getJugadores().get(0);
+            log(" GANADOR: " + ganador.getNombre());
+
+            btnLanzarTurno.setDisable(true);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Juego finalizado");
+            alert.setHeaderText("¡Tenemos un ganador!");
+            alert.setContentText("El ganador es: " + ganador.getNombre());
+            alert.showAndWait();
         }
+
+
     }
 
     private void actualizarVista() {
@@ -245,6 +273,56 @@ public class GameController {
         }
     }
 }
+
+    private void manejarMejoraPropiedad(Jugador jugador, Propiedad propiedad) {
+        if (propiedad.getDueno() != jugador) {
+            return;
+        }
+
+        if (propiedad.getNivelMejora() >= 3) {
+            log(propiedad.getNombre() + " ya esta al maximo.");
+            return;
+        }
+
+        int costo = obtenerCostoMejoraSegunNivel(propiedad.getNivelMejora());
+
+        if (jugador.getDinero() < costo) {
+            log(jugador.getNombre() + " no tiene dinero suficiente para mejorar " + propiedad.getNombre());
+            return;
+        }
+
+        if (jugador.isBot()) {
+            if (Math.random() < 0.5) {
+                propiedad.mejorar();
+                log(jugador.getNombre() + " mejoro " + propiedad.getNombre() + " por $" + costo);
+            }
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Mejorar propiedad");
+        alert.setHeaderText(jugador.getNombre() + ", caiste en tu propiedad");
+        alert.setContentText(
+            "Propiedad: " + propiedad.getNombre() + "\n" +
+            "Nivel actual: " + propiedad.getNivelMejora() + "\n" +
+            "Costo de mejora: $" + costo + "\n\n" +
+            "Deseas mejorar esta propiedad?"
+        );
+
+        ButtonType btnSi = new ButtonType("Mejorar");
+        ButtonType btnNo = new ButtonType("No mejorar", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(btnSi, btnNo);
+
+        Optional<ButtonType> resultado = alert.showAndWait();
+
+        if (resultado.isPresent() && resultado.get() == btnSi) {
+            propiedad.mejorar();
+            log(jugador.getNombre() + " mejoro " + propiedad.getNombre() + " por $" + costo);
+        } else {
+            log(jugador.getNombre() + " decidio no mejorar " + propiedad.getNombre());
+        }
+    }
 
     @FXML
     private void mostrarPreciosRentas() {

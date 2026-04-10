@@ -3,9 +3,12 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import model.*;
 
 
@@ -83,8 +86,15 @@ public class TableroController {
             }
             lblPrecio.setStyle("-fx-font-size: 9px; -fx-font-weight: bold;");
 
-            Label lblNivel = new Label("Nivel: " + p.getNivelMejora());
-            lblNivel.setStyle("-fx-font-size: 8px;");
+            HBox nivelBox = new HBox(2);
+            nivelBox.setAlignment(Pos.CENTER);
+
+            for (int i = 0; i < p.getNivelMejora(); i++) {
+                Label casita = new Label("🏠");
+                casita.setStyle("-fx-text-fill:" + p.getDueno().getColor() + "; -fx-font-size: 8px;");
+                nivelBox.getChildren().add(casita);
+            }
+            contenido.getChildren().add(nivelBox);
 
             String color = p.getColor();
             String colorFX;
@@ -117,7 +127,7 @@ public class TableroController {
                 default:
                     colorFX = "#e0e0e0";
             }
-            contenido.getChildren().addAll(barraDueno, lblNombre, lblPrecio, lblNivel);
+            contenido.getChildren().addAll(barraDueno, lblNombre, lblPrecio);
             contenido.setStyle("-fx-background-color: " + colorFX + "; -fx-padding: 3;");
             contenido.setAlignment(Pos.CENTER);
         } 
@@ -132,7 +142,6 @@ public class TableroController {
             Label lblTipo = new Label("Salida");
             lblTipo.setStyle("-fx-font-size: 9px;");
             contenido.getChildren().add(lblTipo);
-            contenido.setStyle("-fx-background-color: #e3f2fd;");
         } 
         else if (casilla instanceof Carcel) {
             Label lblTipo = new Label("Carcel");
@@ -172,6 +181,8 @@ public class TableroController {
 
         int[][] posiciones = obtenerPosiciones();
 
+        java.util.Map<String, HBox> fichasPorCasilla = new java.util.HashMap<>();
+
         for (Jugador j : jugadores) {
 
             int pos = j.getPosicion();
@@ -179,6 +190,21 @@ public class TableroController {
             int fila = posiciones[pos][0];
             int col = posiciones[pos][1];
 
+            String clave = fila + "-" + col;
+
+            HBox contenedorFichas;
+
+            if (fichasPorCasilla.containsKey(clave)) {
+                contenedorFichas = fichasPorCasilla.get(clave);
+            } else {
+                contenedorFichas = new HBox(2);
+                contenedorFichas.setAlignment(Pos.CENTER);
+                fichasPorCasilla.put(clave, contenedorFichas);
+                gridTablero.add(contenedorFichas, col, fila);
+            }
+
+            StackPane ficha = crearFichaJugador(j);
+            contenedorFichas.getChildren().add(ficha);
             Label jugadorLabel = new Label(j.getNombre().substring(0,1));
 
             gridTablero.add(jugadorLabel, col , fila);
@@ -195,5 +221,23 @@ public class TableroController {
 
             {1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}
         };
+    }
+
+    private StackPane crearFichaJugador(Jugador jugador) {
+        Circle circulo = new Circle(8);
+
+        try {
+            circulo.setFill(Color.web(jugador.getColor()));
+        } catch (Exception e) {
+            circulo.setFill(Color.GRAY);
+        }
+
+        Label inicial = new Label(jugador.getNombre().substring(0,1).toUpperCase());
+        inicial.setStyle("-fx-font-size: 8px; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        StackPane ficha = new StackPane(circulo, inicial);
+        ficha.setMinSize(18, 18);
+        ficha.setPrefSize(18, 18);
+        return ficha;
     }
 }

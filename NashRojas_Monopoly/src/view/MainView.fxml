@@ -63,7 +63,7 @@
                 <Label fx:id="lblDado" text="Dadp: -" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
                 <HBox spacing="10" alignment="CENTER">
                     <Button text="Ver precios y rentas" onAction="#mostrarPreciosRentas"/>
-                    <Button text="Lanzar Turno" onAction="#lanzarTurno"/>
+                    <Button fx:id="btnLanzarTurno" text="Lanzar Turno" onAction="#lanzarTurno"/>
                 </HBox>
                 <TextArea fx:id="txtLog" prefWidth="420" prefHeight="120" editable="false"/>
             </VBox>
