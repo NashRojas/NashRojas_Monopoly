@@ -56,16 +56,16 @@ public class TableroController {
     private void dibujarCentroTablero() {
         StackPane centro = new StackPane();
 
-        centro.setStyle("-fx-backgroud-color:linear-gradient(to bottom, #f8f8f8, #ececec); " + "-fx-border-color: #555555; " + "-fx-border-width: 2;" + "-fx-border-radius: 12; " + "-fx-background-radius: 12;");
+        centro.setStyle("-fx-backgroud-color:linear-gradient(to bottom, #fafafa, #ececec); " + "-fx-border-color: #555555; " + "-fx-border-width: 2;" + "-fx-border-radius: 14; " + "-fx-background-radius: 14;");
 
         VBox cajaTitulo = new VBox(6);
         cajaTitulo.setAlignment(javafx.geometry.Pos.CENTER);
 
         Label titulo = new Label("Thu Real Monopoly");
-        titulo.setStyle("-fx-font-size: 24x; -fx-font-weight: bold; -fx-text-alignment: center;");
+        titulo.setStyle("-fx-font-size: 25x; -fx-font-weight: bold; -fx-text-fill: #222222; -fx-text-alignment: center;");
 
         Label subtitulo = new Label("Edicion Vacana");
-        subtitulo.setStyle("-fx-font-size: 12px; " + "-fx-text-fill: #555555; " + "-fx-font-style: italic;");
+        subtitulo.setStyle("-fx-font-size: 12px; " + "-fx-text-fill: #666666; " + "-fx-font-style: italic;");
 
         cajaTitulo.getChildren().addAll(titulo, subtitulo);
         centro.getChildren().add(cajaTitulo);
@@ -82,9 +82,10 @@ public class TableroController {
         Label lblNombre = new Label(nombre);
         lblNombre.setWrapText(true);
         lblNombre.setMaxWidth(60);
-        lblNombre.setStyle("-fx-font-size: 9px; -fx-font-weight: bold;");
+        lblNombre.setStyle("-fx-font-size: 8.5px; -fx-font-weight: bold; -fx-text-fill: #222222;");
 
         VBox contenido = new VBox(2);
+        contenido.setAlignment(javafx.geometry.Pos.CENTER);
 
         if (casilla instanceof Propiedad) {
             Propiedad p = (Propiedad) casilla;
@@ -106,7 +107,7 @@ public class TableroController {
             } else {
                 lblPrecio = new Label("Renta: $" + p.calcularRenta());
             }
-            lblPrecio.setStyle("-fx-font-size: 9px; -fx-font-weight: bold;");
+            lblPrecio.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #111111;");
 
             HBox nivelBox = new HBox(2);
             nivelBox.setAlignment(Pos.CENTER);

@@ -4,26 +4,31 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.*?>
 
-<VBox spacing="15" alignment="CENTER"
-        prefWidth="400" prefHeight="300"
+<VBox spacing="18" alignment="CENTER"
+        prefWidth="460" prefHeight="360"
+        style="-fx-background-color: linear-gradient(to bottom, #A3B18A, #DAD7CD);  -fx-padding: 25px;"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="controller.MenuController">
 
-    <Label text="MONOPOLY" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+    <Label text="MONOPOLY DOMINICANO" style="-fx-font-size: 28px; -fx-font-weight: bold;" />
+    <Label text="Configura la partida y comienza a jugar" style="-fx-font-size: 12px; -fx-text-fill: #555555;" />
 
-    <HBox spacing="10" alignment="CENTER">
-        <Label text="Jugadores reales:" />
-        <Spinner fx:id="spnHumanos"/>
+    <HBox spacing="12" alignment="CENTER">
+        <Label text="Jugadores reales:" style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+        <Spinner fx:id="spnHumanos" prefWidth="90"/>
     </HBox>
 
     <HBox spacing="10" alignment="CENTER">
-        <Label text="Bots:" />
-        <Spinner fx:id="spnBots"/>
+        <Label text="Bots:" style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+        <Spinner fx:id="spnBots" prefWidth="90"/>
     </HBox>
 
-    <Button text="Jugar" onAction="#iniciarJuego"/>
-    <Button text="Ver Reglas" onAction="#mostrarReglas"/>
+    <Button text="Jugar" onAction="#iniciarJuego" prefWidth="180"
+            style="fx-background-color: #e9ecef; -fx-border-color: #999999; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-weight: bold;"/>
+    <Button text="Ver Reglas" onAction="#mostrarReglas" prefWidth="180"
+            style="-fx-background-color: #e9ecef; -fx-border-color: #999999; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-weight: bold;"/>
 
-    <Label fx:id="lblError"/>
+    <Label fx:id="lblError" style="-fx-text-fill: #b00020; -fx-font-size: 12px;"/>
 
+<Label text="Hasta 4 jugadores por partida" style="-fx-font-size: 11px; -fx-text-fill: #666666;" />
 </VBox>

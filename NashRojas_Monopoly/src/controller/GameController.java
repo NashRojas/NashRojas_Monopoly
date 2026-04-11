@@ -54,6 +54,7 @@ public class GameController {
     @FXML private Label lblEstadoJ4;
 
     @FXML private Button btnLanzarTurno;
+    @FXML private Button btnPrecios;
 
     private Juego juego;
     private boolean juegoFinalizado = false;
@@ -64,6 +65,30 @@ public class GameController {
         actualizarVista();
         log("Juego iniciado.");
         lblDado.setText("Dado: -");
+    }
+
+    @FXML
+    public void initialize() {
+
+        btnLanzarTurno.setStyle("-fx-background-color: #588157; -fx-text-fill: white; -fx-border-color: #344E41; -fx-border-radius: 8; -fx-background-radius: 8;");
+
+        btnLanzarTurno.setOnMouseEntered(e ->
+            btnLanzarTurno.setStyle("-fx-background-color: #3A5A40; -fx-text-fill: white; -fx-border-color: #344E41; -fx-border-radius: 8; -fx-background-radius: 8;")
+        );
+
+        btnLanzarTurno.setOnMouseExited(e ->
+            btnLanzarTurno.setStyle("-fx-background-color: #588157; -fx-text-fill: white; -fx-border-color: #344E41; -fx-border-radius: 8; -fx-background-radius: 8;")
+        );
+
+        btnPrecios.setStyle("-fx-background-color: #588157; -fx-text-fill: white; -fx-border-color: #344E41; -fx-border-radius: 8; -fx-background-radius: 8;");
+
+        btnPrecios.setOnMouseEntered(e ->
+            btnPrecios.setStyle("-fx-background-color: #3A5A40; -fx-text-fill: white; -fx-border-color: #344E41; -fx-border-radius: 8; -fx-background-radius: 8;")
+        );
+
+        btnPrecios.setOnMouseExited(e ->
+            btnPrecios.setStyle("-fx-background-color: #588157; -fx-text-fill: white; -fx-border-color: #344E41; -fx-border-radius: 8; -fx-background-radius: 8;")
+        );
     }
 
     @FXML
@@ -186,7 +211,6 @@ public class GameController {
             alert.setContentText("El ganador es: " + ganador.getNombre());
             alert.showAndWait();
         }
-
 
     }
 
@@ -566,11 +590,11 @@ public class GameController {
 
     private void resetearPanel(VBox panel, Label barra) {
         barra.setStyle("-fx-background-color: transparent;");
-        panel.setStyle("-fx-border-color: #444444; " + "-fx-border-width: 1; " + "-fx-border-radius: 8; " + "-fx-background-radius: 8; " + "-fx-background-color: #f8f8f8; " + "-fx-padding: 10;");
+        panel.setStyle("-fx-border-color: #555555; " + "-fx-border-width: 1; " + "-fx-border-radius: 10; " + "-fx-background-radius: 10; " + "-fx-background-color:linear-gradient(to bottom, #fafafa, #efefef); " + "-fx-padding: 10;");
     }
 
     private void resaltarTurno(VBox panel) {
-        panel.setStyle("-fx-border-color: gold; " + "-fx-border-width: 3; " + "-fx-border-radius: 8; " + "-fx-background-radius: 8; " + "-fx-background-color: #fffdf2; " + "-fx-padding: 10; " + "-fx-effect: dropshadow(gaussian, gold, 15, 0.6, 0, 0);");
+        panel.setStyle("-fx-border-color: #d4a200; " + "-fx-border-width: 3; " + "-fx-border-radius: 10; " + "-fx-background-radius: 10; " + "-fx-background-color: #fffdf2; " + "-fx-padding: 10; " + "-fx-effect: dropshadow(gaussian, rgba(212,162,0,0.45), 15, 0.6, 0, 0);");
     }
 
     private String obtenerEstadoJugador(Jugador jugador) {
