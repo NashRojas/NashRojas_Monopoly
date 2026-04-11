@@ -566,11 +566,11 @@ public class GameController {
 
     private void resetearPanel(VBox panel, Label barra) {
         barra.setStyle("-fx-background-color: transparent;");
-        panel.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;");
+        panel.setStyle("-fx-border-color: #444444; " + "-fx-border-width: 1; " + "-fx-border-radius: 8; " + "-fx-background-radius: 8; " + "-fx-background-color: #f8f8f8; " + "-fx-padding: 10;");
     }
 
     private void resaltarTurno(VBox panel) {
-        panel.setStyle("-fx-border-color: gold; -fx-border-width: 3; -fx-padding: 10; -fx-effect: dropshadow(gaussian, gold, 15, 0.7, 0, 0);");
+        panel.setStyle("-fx-border-color: gold; " + "-fx-border-width: 3; " + "-fx-border-radius: 8; " + "-fx-background-radius: 8; " + "-fx-background-color: #fffdf2; " + "-fx-padding: 10; " + "-fx-effect: dropshadow(gaussian, gold, 15, 0.6, 0, 0);");
     }
 
     private String obtenerEstadoJugador(Jugador jugador) {

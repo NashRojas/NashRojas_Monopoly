@@ -56,12 +56,19 @@ public class TableroController {
     private void dibujarCentroTablero() {
         StackPane centro = new StackPane();
 
-        centro.setStyle("-fx-backgroud-color: #f5f5f5; " + "-fx-border-color: black; " + "-fx-border-width: 2;");
+        centro.setStyle("-fx-backgroud-color:linear-gradient(to bottom, #f8f8f8, #ececec); " + "-fx-border-color: #555555; " + "-fx-border-width: 2;" + "-fx-border-radius: 12; " + "-fx-background-radius: 12;");
+
+        VBox cajaTitulo = new VBox(6);
+        cajaTitulo.setAlignment(javafx.geometry.Pos.CENTER);
 
         Label titulo = new Label("Thu Real Monopoly");
-        titulo.setStyle("-fx-font-size: 22x; -fx-font-weight: bold; -fx-text-alignment: center;");
+        titulo.setStyle("-fx-font-size: 24x; -fx-font-weight: bold; -fx-text-alignment: center;");
 
-        centro.getChildren().add(titulo);
+        Label subtitulo = new Label("Edicion Vacana");
+        subtitulo.setStyle("-fx-font-size: 12px; " + "-fx-text-fill: #555555; " + "-fx-font-style: italic;");
+
+        cajaTitulo.getChildren().addAll(titulo, subtitulo);
+        centro.getChildren().add(cajaTitulo);
 
         gridTablero.add(centro, 1, 1, 9, 9);
     }
@@ -211,7 +218,7 @@ public class TableroController {
 
         StackPane celda = new StackPane(contenido);
         celda.setPrefSize(70, 70);
-        celda.setStyle("-fx-border-color: black; -fx-aligment: center;");
+        celda.setStyle("-fx-border-color: #444444; -fx-border-width: 1; -fx-alignment: center; -fx-background-radius: 4; -fx-border-radius: 4;");
     
         gridTablero.add(celda, columna, fila);
     }
@@ -267,7 +274,7 @@ public class TableroController {
     }
 
     private StackPane crearFichaJugador(Jugador jugador) {
-        Circle circulo = new Circle(8);
+        Circle circulo = new Circle(10);
 
         try {
             circulo.setFill(Color.web(jugador.getColor()));
@@ -275,12 +282,17 @@ public class TableroController {
             circulo.setFill(Color.GRAY);
         }
 
-        Label inicial = new Label(jugador.getNombre().substring(0,1).toUpperCase());
-        inicial.setStyle("-fx-font-size: 8px; -fx-text-fill: white; -fx-font-weight: bold;");
+        circulo.setStroke(Color.BLACK);
+        circulo.setStrokeWidth(1.2);
 
-        StackPane ficha = new StackPane(circulo, inicial);
-        ficha.setMinSize(18, 18);
-        ficha.setPrefSize(18, 18);
+        Label inicial = new Label(jugador.getNombre().substring(0,1).toUpperCase());
+        inicial.setStyle("-fx-font-size: 9px; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        StackPane ficha = new StackPane();
+        ficha.getChildren().addAll(circulo, inicial);
+        ficha.setMinSize(22, 22);
+        ficha.setPrefSize(22, 22);
+        ficha.setMaxSize(22, 22);
         return ficha;
     }
 }

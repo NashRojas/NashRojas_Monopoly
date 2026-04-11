@@ -21,13 +21,13 @@
                 GridPane.rowIndex="0"
                 GridPane.columnIndex="0"
                 GridPane.valignment="TOP"
-                style="-fx-border-color: black; -fx-padding: 10;"
+                style="-fx-border-color: #444444; -fx-border-radius: 8; -fx-background-radius: 8; -fx-background-color: #f8f8f8; -fx-padding: 10;"
                 prefWidth="180" prefHeight="140"
                 maxWidth="180" maxHeight="140"
                 minWidth="180" minHeight="140">
 
-                <Label fx:id="barraJ2" minHeight="6" maxWidth="999" text=""/>
-                <Label text="Jugador 2"/>
+                <Label fx:id="barraJ2" minHeight="6" prefHeight="8" maxWidth="999" text=""/>
+                <Label text="Jugador 2" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
                 <Label fx:id="lblNombreJ2" text="Nombre: -" />
                 <Label fx:id="lblDineroJ2" text="Dinero: -" />
                 <Label fx:id="lblCapitalJ2" text="Capital: -" />
@@ -46,13 +46,13 @@
                 GridPane.rowIndex="0"
                 GridPane.columnIndex="2"
                 GridPane.valignment="TOP"
-                style="-fx-border-color: black; -fx-padding: 10;"
+                style="-fx-border-color: #444444; -fx-border-radius: 8; -fx-background-radius: 8; -fx-background-color: #f8f8f8; -fx-padding: 10;"
                 prefWidth="180" prefHeight="140"
                 maxWidth="180" maxHeight="140"
                 minWidth="180" minHeight="140">
 
-                <Label fx:id="barraJ3" minHeight="6" maxWidth="999" text=""/>
-                <Label text="Jugador 3"/>
+                <Label fx:id="barraJ3" minHeight="6" prefHeight="8" maxWidth="999" text=""/>
+                <Label text="Jugador 3" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
                 <Label fx:id="lblNombreJ3" text="Nombre: -" />
                 <Label fx:id="lblDineroJ3" text="Dinero: -" />
                 <Label fx:id="lblCapitalJ3" text="Capital: -" />
@@ -66,13 +66,13 @@
                 GridPane.rowIndex="1"
                 GridPane.columnIndex="0"
                 GridPane.valignment="TOP"
-                style="-fx-border-color: black; -fx-padding: 10;"
+                style="-fx-border-color: #444444; -fx-border-radius: 8; -fx-background-radius: 8; -fx-background-color: #f8f8f8; -fx-padding: 10;"
                 prefWidth="180" prefHeight="140"
                 maxWidth="180" maxHeight="140"
                 minWidth="180" minHeight="140">
 
-                <Label fx:id="barraJ1" minHeight="6" maxWidth="999" text=""/>
-                <Label text="Jugador 1"/>
+                <Label fx:id="barraJ1" minHeight="6" prefHeight="8" maxWidth="999" text=""/>
+                <Label text="Jugador 1" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
                 <Label fx:id="lblNombreJ1" text="Nombre: -" />
                 <Label fx:id="lblDineroJ1" text="Dinero: -" />
                 <Label fx:id="lblCapitalJ1" text="Capital: -" />
@@ -88,18 +88,27 @@
                 style="-fx-padding: 4;">
 
                 <Label fx:id="lblDado"
-                    text="Dadp: -"
-                    style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    text="Dado: -"
+                    style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-background-color: #f3f3f3; -fx-border-color: #999999; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 8 16 8 16;"/>
 
                 <HBox spacing="10" alignment="CENTER">
-                    <Button text="Ver precios y rentas" onAction="#mostrarPreciosRentas"/>
-                    <Button fx:id="btnLanzarTurno" text="Lanzar Turno" onAction="#lanzarTurno"/>
+                    <Button fx:id="btnLanzarTurno"
+                        text="Lanzar Turno"
+                        onAction="#lanzarTurno"
+                        prefWidth="140"
+                        style="-fx-background-color: #e9ecef; -fx-border-color: #999999; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-weight: bold;"/>
+
+                    <Button text="Ver precios / rentas"
+                        onAction="#mostrarPreciosRentas"
+                        prefWidth="140"
+                        style="-fx-background-color: #e9ecef; -fx-border-color: #999999; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-weight: bold;"/>
                 </HBox>
 
                 <TextArea fx:id="txtLog"
                         prefWidth="420"
                         prefHeight="120"
-                        editable="false"/>
+                        editable="false"
+                        style="-fx-control-inner-background: #fafafa; -fx-border-color: #b5b5b5; -fx-font-family: 'Consolas'; -fx-font-size: 12px;"/>
             </VBox>
 
             <VBox fx:id="panelJugador4"
@@ -108,13 +117,13 @@
                 GridPane.rowIndex="1"
                 GridPane.columnIndex="2"
                 GridPane.valignment="TOP"
-                style="-fx-border-color: black; -fx-padding: 10;"
+                style="-fx-border-color: #444444; -fx-border-radius: 8; -fx-background-radius: 8; -fx-background-color: #f8f8f8; -fx-padding: 10;"
                 prefWidth="180" prefHeight="140"
                 maxWidth="180" maxHeight="140"
                 minWidth="180" minHeight="140">
 
-                <Label fx:id="barraJ4" minHeight="6" maxWidth="999" text=""/>
-                <Label text="Jugador 4"/>
+                <Label fx:id="barraJ4" minHeight="8" prefHeight="8" maxWidth="999" text=""/>
+                <Label text="Jugador 4" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
                 <Label fx:id="lblNombreJ4" text="Nombre: -" />
                 <Label fx:id="lblDineroJ4" text="Dinero: -" />
                 <Label fx:id="lblCapitalJ4" text="Capital: -" />
