@@ -49,6 +49,21 @@ public class TableroController {
         for (int row = 1; row <= 9; row++) {
             agregarCasilla(index++, row, 0);
         }
+
+        dibujarCentroTablero();
+    }
+
+    private void dibujarCentroTablero() {
+        StackPane centro = new StackPane();
+
+        centro.setStyle("-fx-backgroud-color: #f5f5f5; " + "-fx-border-color: black; " + "-fx-border-width: 2;");
+
+        Label titulo = new Label("Thu Real Monopoly");
+        titulo.setStyle("-fx-font-size: 22x; -fx-font-weight: bold; -fx-text-alignment: center;");
+
+        centro.getChildren().add(titulo);
+
+        gridTablero.add(centro, 1, 1, 9, 9);
     }
 
     private void agregarCasilla(int posicion, int fila, int columna) {
@@ -131,6 +146,34 @@ public class TableroController {
             contenido.setStyle("-fx-background-color: " + colorFX + "; -fx-padding: 3;");
             contenido.setAlignment(Pos.CENTER);
         } 
+
+        else if (casilla instanceof Servicio) {
+            Servicio s = (Servicio) casilla;
+
+            Label barraDueno = new Label();
+            barraDueno.setMinHeight(6);
+            barraDueno.setMaxWidth(Double.MAX_VALUE);
+
+            if (s.getDueno() != null) {
+                String colorDueno = s.getDueno().getColor();
+                barraDueno.setStyle("-fx-background-color: " + colorDueno + ";");
+            } else {
+                barraDueno.setStyle("-fx-background-color: transparent;");
+            }
+
+            Label lblValor;
+            if (s.getDueno() == null) {
+                lblValor = new Label("Compra: $" + s.getPrecio());
+            } else {
+                int rentaServicio = s.calcularRenta(juego.getServicios(), s.getDueno());
+                lblValor = new Label("Renta: $" + rentaServicio);
+            }
+            lblValor.setStyle("-fx-font-size: 9px; -fx-font-weight: bold;");
+
+            contenido.getChildren().addAll(barraDueno, lblNombre, lblValor);
+            contenido.setStyle("-fx-background-color: #b0bec5; -fx-padding: 3;");
+            contenido.setAlignment(Pos.CENTER);
+        }
 
         else if (casilla instanceof Impuesto) {
             Label lblTipo = new Label("Impuesto");

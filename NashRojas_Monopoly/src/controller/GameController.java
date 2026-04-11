@@ -93,10 +93,10 @@ public class GameController {
         if (casillaActual instanceof CasillaEvento) {
             CasillaEvento evento = (CasillaEvento) casillaActual;
 
-            log(nombreJugador + "cayo en Evento");
+            log(nombreJugador + "cayo en una casilla de Evento");
 
             if (evento.getUltimoMensaje() != null) {
-                log("Evento: " + evento.getUltimoMensaje());
+                log("El evento determino: " + evento.getUltimoMensaje());
             }
 
             if (!antes.isBot()) {
@@ -116,7 +116,13 @@ public class GameController {
             } else if (propiedadActual.getDueno() == antes) {
                 manejarMejoraPropiedad(antes, propiedadActual);
             }
+        }
+        if (dado > 0 && casillaActual instanceof Servicio) {
+            Servicio servicioActual = (Servicio) casillaActual;
 
+            if (servicioActual.getDueno() == null) {
+                manejarServicio(antes, servicioActual);
+            }
         }
         if (dado > 0 && casillaActual instanceof OportunidadNegocio) {
             manejarOportunidadNegocio(antes);
@@ -124,7 +130,7 @@ public class GameController {
 
         actualizarVista();
 
-        log("Turno de " + nombreJugador);
+        log("Turno de " + nombreJugador.toUpperCase() + "===");
 
         if (dado > 0) {
             log("Dado: " + dado);
@@ -150,9 +156,18 @@ public class GameController {
             Propiedad p = (Propiedad) casillaActual;
 
             if (p.getDueno() == antes) {
-                log(nombreJugador + " es dueno de " + p.getNombre() + ".");
+                log(nombreJugador + " es dueño de " + p.getNombre() + ".");
             } else if (p.getDueno() != null) {
                 log(nombreJugador + "pago renta de $" + p.calcularRenta() + " a" + p.getDueno().getNombre());
+            }
+        }
+        if (casillaActual instanceof Servicio) {
+            Servicio s = (Servicio) casillaActual;
+
+            if (s.getDueno() == antes) {
+                log(nombreJugador + " es dueño de " + s.getNombre() + ".");
+            } else if (s.getDueno() != null) {
+                log(nombreJugador + " pago renta de $" + s.calcularRenta(juego.getServicios(), antes) + " a " + s.getDueno().getNombre() + "por el servicio " + s.getNombre());
             }
         }
         log("-----------------------------------");
@@ -273,7 +288,45 @@ public class GameController {
         }
     }
 }
+    private void manejarServicio(Jugador jugador, Servicio servicio) {
+        if (servicio.getDueno() == null) {
 
+            if (jugador.isBot()) {
+                if (jugador.getDinero() >= servicio.getPrecio()) {
+                    servicio.comprar(jugador);
+                    log(jugador.getNombre() + "compro el servicio" + servicio.getNombre() + "por $" + servicio.getPrecio());
+                }
+            } else {
+                if (jugador.getDinero() >= servicio.getPrecio()) {
+
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Comprar servicio");;
+                    alert.setHeaderText(jugador.getNombre() + ", has caido en " + servicio.getNombre());
+
+                    int rentaActual = servicio.calcularRenta(juego.getServicios(), jugador);
+
+                    alert.setContentText(
+                        "Precio: $" + servicio.getPrecio() + "\n" + "Renta estimada inicial: $" + rentaActual + "\n\n" + "Deseas comprar este servicio?"
+                    );
+
+                    ButtonType btnComprar = new ButtonType("Comprar");
+                    ButtonType btnNoComprar = new ButtonType("No comprar", ButtonBar.ButtonData.CANCEL_CLOSE);
+                    alert.getButtonTypes().setAll(btnComprar, btnNoComprar);
+
+                    Optional<ButtonType> resultado = alert.showAndWait();
+
+                    if (resultado.isPresent() && resultado.get() == btnComprar) {
+                        servicio.comprar(jugador);
+                        log(jugador.getNombre() + " compro el servicio " + servicio.getNombre() + " por $" + servicio.getPrecio());
+                    } else {
+                        log(jugador.getNombre() + " decidio no comprar el servicio " + servicio.getNombre());
+                    }
+                } else {
+                    log(jugador.getNombre() + " no tiene dinero suficiente para comprar el servicio " + servicio.getNombre());
+                }
+            }
+        }
+    }
     private void manejarMejoraPropiedad(Jugador jugador, Propiedad propiedad) {
         if (propiedad.getDueno() != jugador) {
             return;
@@ -513,11 +566,11 @@ public class GameController {
 
     private void resetearPanel(VBox panel, Label barra) {
         barra.setStyle("-fx-background-color: transparent;");
-        panel.setStyle("-fx-border-color: black; -fx-padding: 10;");
+        panel.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;");
     }
 
     private void resaltarTurno(VBox panel) {
-        panel.setStyle("-fx-border-color: gold; -fx-border-width: 3; -fx-padding: 10;");
+        panel.setStyle("-fx-border-color: gold; -fx-border-width: 3; -fx-padding: 10; -fx-effect: dropshadow(gaussian, gold, 15, 0.7, 0, 0);");
     }
 
     private String obtenerEstadoJugador(Jugador jugador) {

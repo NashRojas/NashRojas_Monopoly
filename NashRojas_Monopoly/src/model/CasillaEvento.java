@@ -61,6 +61,8 @@ public class CasillaEvento extends Casilla {
                 break;
 
             case 7:
+                jugador.setPosicion(10);
+                jugador.setEnCarcel(true);
                 jugador.setTurnosEnCarcel(1);
                 ultimoMensaje = jugador.getNombre() + " fue enviado a la cárcel por 1 turno.";
                 break;

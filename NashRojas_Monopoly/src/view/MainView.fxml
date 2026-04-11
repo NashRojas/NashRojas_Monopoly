@@ -13,14 +13,20 @@
             fx:controller="controller.GameController">
 
     <center>
-        <GridPane hgap="15" vgap="15" alignment="CENTER" style="-fx-padding: 15;">
+        <GridPane hgap="15" vgap="8" alignment="TOP_CENTER" style="-fx-padding: 10;">
 
-            <VBox fx:id="panelJugador2" spacing="6" alignment="CENTER_LEFT" GridPane.rowIndex="0" GridPane.columnIndex="0"
+            <VBox fx:id="panelJugador2"
+                spacing="6"
+                alignment="CENTER_LEFT"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="0"
+                GridPane.valignment="TOP"
                 style="-fx-border-color: black; -fx-padding: 10;"
                 prefWidth="180" prefHeight="140"
                 maxWidth="180" maxHeight="140"
-                minWidth="180" minHeight="140">  
-                <Label fx:id="barraJ2" minHeight="6" maxWidth="999" text=""/>           
+                minWidth="180" minHeight="140">
+
+                <Label fx:id="barraJ2" minHeight="6" maxWidth="999" text=""/>
                 <Label text="Jugador 2"/>
                 <Label fx:id="lblNombreJ2" text="Nombre: -" />
                 <Label fx:id="lblDineroJ2" text="Dinero: -" />
@@ -29,14 +35,23 @@
                 <Label fx:id="lblEstadoJ2" text="Estado: -" />
             </VBox>
 
-            <fx:include fx:id="tablero" source="TableroView.fxml" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <fx:include fx:id="tablero"
+                        source="TableroView.fxml"
+                        GridPane.rowIndex="0"
+                        GridPane.columnIndex="1"/>
 
-            <VBox fx:id="panelJugador3" spacing="6" alignment="CENTER_LEFT" GridPane.rowIndex="0" GridPane.columnIndex="2"
+            <VBox fx:id="panelJugador3"
+                spacing="6"
+                alignment="CENTER_LEFT"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="2"
+                GridPane.valignment="TOP"
                 style="-fx-border-color: black; -fx-padding: 10;"
                 prefWidth="180" prefHeight="140"
                 maxWidth="180" maxHeight="140"
                 minWidth="180" minHeight="140">
-                <Label fx:id="barraJ3" minHeight="6" maxWidth="999" text=""/>    
+
+                <Label fx:id="barraJ3" minHeight="6" maxWidth="999" text=""/>
                 <Label text="Jugador 3"/>
                 <Label fx:id="lblNombreJ3" text="Nombre: -" />
                 <Label fx:id="lblDineroJ3" text="Dinero: -" />
@@ -45,12 +60,18 @@
                 <Label fx:id="lblEstadoJ3" text="Estado: -" />
             </VBox>
 
-            <VBox fx:id="panelJugador1" spacing="6" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="0"
+            <VBox fx:id="panelJugador1"
+                spacing="6"
+                alignment="CENTER_LEFT"
+                GridPane.rowIndex="1"
+                GridPane.columnIndex="0"
+                GridPane.valignment="TOP"
                 style="-fx-border-color: black; -fx-padding: 10;"
                 prefWidth="180" prefHeight="140"
                 maxWidth="180" maxHeight="140"
                 minWidth="180" minHeight="140">
-                <Label fx:id="barraJ1" minHeight="6" maxWidth="999" text=""/>    
+
+                <Label fx:id="barraJ1" minHeight="6" maxWidth="999" text=""/>
                 <Label text="Jugador 1"/>
                 <Label fx:id="lblNombreJ1" text="Nombre: -" />
                 <Label fx:id="lblDineroJ1" text="Dinero: -" />
@@ -59,21 +80,40 @@
                 <Label fx:id="lblEstadoJ1" text="Estado: -" />
             </VBox>
 
-            <VBox spacing="10" alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-padding: 10;">
-                <Label fx:id="lblDado" text="Dadp: -" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <VBox spacing="8"
+                alignment="CENTER"
+                GridPane.rowIndex="1"
+                GridPane.columnIndex="1"
+                GridPane.valignment="TOP"
+                style="-fx-padding: 4;">
+
+                <Label fx:id="lblDado"
+                    text="Dadp: -"
+                    style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
                 <HBox spacing="10" alignment="CENTER">
                     <Button text="Ver precios y rentas" onAction="#mostrarPreciosRentas"/>
                     <Button fx:id="btnLanzarTurno" text="Lanzar Turno" onAction="#lanzarTurno"/>
                 </HBox>
-                <TextArea fx:id="txtLog" prefWidth="420" prefHeight="120" editable="false"/>
+
+                <TextArea fx:id="txtLog"
+                        prefWidth="420"
+                        prefHeight="120"
+                        editable="false"/>
             </VBox>
 
-            <VBox fx:id="panelJugador4" spacing="6" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="2"
+            <VBox fx:id="panelJugador4"
+                spacing="6"
+                alignment="CENTER_LEFT"
+                GridPane.rowIndex="1"
+                GridPane.columnIndex="2"
+                GridPane.valignment="TOP"
                 style="-fx-border-color: black; -fx-padding: 10;"
                 prefWidth="180" prefHeight="140"
                 maxWidth="180" maxHeight="140"
                 minWidth="180" minHeight="140">
-                <Label fx:id="barraJ4" minHeight="6" maxWidth="999" text=""/>    
+
+                <Label fx:id="barraJ4" minHeight="6" maxWidth="999" text=""/>
                 <Label text="Jugador 4"/>
                 <Label fx:id="lblNombreJ4" text="Nombre: -" />
                 <Label fx:id="lblDineroJ4" text="Dinero: -" />
