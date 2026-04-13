@@ -13,6 +13,7 @@ public class Servicio extends Casilla {
         this.dueno = null;
     }
 
+    // al caer en una casilla de servicio, si la casilla no tiene dueño, el jugador puede comprarla pagando su precio, y se muestra un mensaje indicando que el jugador ha comprado el servicio, si la casilla tiene dueño y no es el jugador que cayó, el jugador debe pagar la renta calculada al dueño, y se muestra un mensaje indicando que el jugador ha pagado la renta al dueño, y si la casilla tiene dueño y es el jugador que cayó, no se hace nada
     @Override
     public void ejecutarAccion(Jugador jugador, Juego juego) {
         if (dueno == null) {
@@ -24,6 +25,7 @@ public class Servicio extends Casilla {
         }
     }
 
+    // metodo para calcular la renta de un servicio, recibiendo la lista de servicios del juego y el dueño actual del servicio como parametros, contando cuantas casillas de servicio tiene el mismo dueño, y devolviendo la renta correspondiente segun la cantidad de servicios que tenga el dueño
     public int calcularRenta(List<Servicio> servicios, Jugador duenoActual) {
         int cantidad = 0;
         for (Servicio s : servicios) {
@@ -46,6 +48,8 @@ public class Servicio extends Casilla {
         }
     }
 
+    // metodo para comprar un servicio, asignando el dueño del servicio al jugador que lo compra, pagando el precio del servicio, 
+    // y agregando el servicio a la lista de servicios del jugador
     public void comprar(Jugador jugador){
         this.dueno = jugador;
         jugador.pagar(precio);

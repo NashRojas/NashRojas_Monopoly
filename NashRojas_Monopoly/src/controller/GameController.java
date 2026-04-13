@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import java.util.*;
 import javafx.scene.control.*;
@@ -9,13 +8,16 @@ import model.*;
 
 
 public class GameController {
-    
+    // area del texto donde se muestra el historial
     @FXML 
     private TextArea txtLog;
 
+    // referencia al controlador del tablero para actualizarlo cada turno
     @FXML
     private TableroController tableroController;
 
+
+    // paneles y labels para mostrar la informacion de cada jugador
     @FXML private VBox panelJugador1;
     @FXML private VBox panelJugador2;
     @FXML private VBox panelJugador3;
@@ -41,8 +43,6 @@ public class GameController {
     @FXML private Label lblCapitalJ4;
     @FXML private Label lblPosicionJ4;
 
-    @FXML private Label lblDado;
-
     @FXML private Label barraJ1;
     @FXML private Label barraJ2;
     @FXML private Label barraJ3;
@@ -53,12 +53,20 @@ public class GameController {
     @FXML private Label lblEstadoJ3;
     @FXML private Label lblEstadoJ4;
 
+    // label para mostrar el resultado del dado
+    @FXML private Label lblDado;
+
+    // botones para lanzar el turno y mostrar precios/rentas
     @FXML private Button btnLanzarTurno;
     @FXML private Button btnPrecios;
 
+
+    // referencia al juego para ejecutar los turnos y obtener la informacion actualizada
     private Juego juego;
     private boolean juegoFinalizado = false;
 
+
+    // metodo para recibir la referencia al juego desde el main y actualizar la vista inicial
     public void setJuego(Juego juego) {
         this.juego = juego;
         tableroController.setJuego(juego);
@@ -67,6 +75,7 @@ public class GameController {
         lblDado.setText("Dado: -");
     }
 
+    // metodo para inicializar estilos y eventos de los botones
     @FXML
     public void initialize() {
 
@@ -91,6 +100,8 @@ public class GameController {
         );
     }
 
+
+    // metodo para manejar el evento de lanzar el turno, ejecutar la logica del juego y actualizar la vista
     @FXML
     private void lanzarTurno() {
 
@@ -99,13 +110,15 @@ public class GameController {
             return;
         }
 
-        Jugador antes = juego.getJugadorActual();
 
+        // obtener informacion del jugador antes de ejecutar el turno para mostrar cambios en el log
+        Jugador antes = juego.getJugadorActual();
         String nombreJugador = antes.getNombre();
         int posicionAntes = antes.getPosicion();
         int dineroAntes = antes.getDinero();
         boolean estabaEnCarcel = antes.isEnCarcel();
 
+        // ejecutar el turno y obtener el resultado del dado
         int dado = juego.ejecutarTurno();
         if (dado > 0) {
             lblDado.setText("Dado: " + dado);
@@ -113,6 +126,7 @@ public class GameController {
             lblDado.setText("Dado: -");
         }
 
+        // obtener la casilla actual despues de mover al jugador para determinar que acciones tomar segun el tipo de casilla
         Casilla casillaActual = juego.getCasilla(antes.getPosicion());
 
         if (casillaActual instanceof CasillaEvento) {
@@ -133,6 +147,7 @@ public class GameController {
             }
         }
 
+        // dependiendo del tipo de casilla, manejar la logica de compra, pago de renta, mejoras, etc
         if (dado > 0 && casillaActual instanceof Propiedad) {
             Propiedad propiedadActual = (Propiedad) casillaActual;
 
@@ -157,6 +172,7 @@ public class GameController {
 
         log("Turno de " + nombreJugador.toUpperCase() + "===");
 
+        // mostrar en el log los cambios ocurridos durante el turno comparando la informacion del jugador antes y despues de ejecutar el turno
         if (dado > 0) {
             log("Dado: " + dado);
             log("Posicion: " + posicionAntes + " → " + antes.getPosicion());
@@ -165,6 +181,7 @@ public class GameController {
             log("No tiro dado.");
         }
 
+        // mostrar mensajes relacionados con el estado de carcel y pagos de renta segun el tipo de casilla donde cayo el jugador
         if (!estabaEnCarcel && antes.isEnCarcel()) {
             log(nombreJugador + " fue enviado a la carcel.");
             log("Turnos restantes en carcel: " + antes.getTurnosEnCarcel());
@@ -177,6 +194,7 @@ public class GameController {
             log(nombreJugador + " sale de la carcel.");
         }
 
+        // mostrar mensajes relacionados con el pago de renta si el jugador cayo en una propiedad o servicio de otro jugador
         if (casillaActual instanceof Propiedad) {
             Propiedad p = (Propiedad) casillaActual;
 
@@ -186,6 +204,9 @@ public class GameController {
                 log(nombreJugador + "pago renta de $" + p.calcularRenta() + " a" + p.getDueno().getNombre());
             }
         }
+
+        // mostrar mensajes relacionados con el pago de renta si el jugador cayo en un servicio de otro jugador, 
+        // calculando la renta segun la cantidad de servicios que tenga el dueño
         if (casillaActual instanceof Servicio) {
             Servicio s = (Servicio) casillaActual;
 
@@ -197,6 +218,7 @@ public class GameController {
         }
         log("-----------------------------------");
 
+        // verificar si el juego ha terminado despues de ejecutar el turno y mostrar un mensaje con el ganador
         if (juego.hayGanador()) {
             juegoFinalizado = true;
 
@@ -204,22 +226,25 @@ public class GameController {
             log(" GANADOR: " + ganador.getNombre());
 
             btnLanzarTurno.setDisable(true);
-
+        
+        // mostrar alerta con el ganador
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Juego finalizado");
             alert.setHeaderText("¡Tenemos un ganador!");
             alert.setContentText("El ganador es: " + ganador.getNombre());
             alert.showAndWait();
         }
-
     }
 
+    // metodo para actualizar toda la vista del juego, incluyendo el tablero y los paneles de informacion de los jugadores
     private void actualizarVista() {
         tableroController.actualizarJugadores(juego.getJugadores());
         actualizarPanelesJugadores();
         actualizarEstiloPaneles();
     }
 
+    // metodos auxiliares para actualizar los paneles de informacion de los jugadores, mostrar mensajes en el log y manejar las acciones de compra, 
+    // pago de renta y mejoras segun el tipo de casilla donde cayo el jugador
     private void actualizarPanelesJugadores() {
         List<Jugador> jugadores = juego.getJugadores();
 
@@ -242,7 +267,7 @@ public class GameController {
         }
     }
 
-
+    // metodo para llenar un panel de informacion de un jugador con su nombre, dinero, capital, posicion y estado actual
     private void llenarPanel(Jugador jugador, VBox panel, Label lblNombre, Label lblDinero,
         Label lblCapital, Label lblPosicion, Label lblEstado ) {
         panel.setVisible(true);
@@ -255,6 +280,7 @@ public class GameController {
         lblEstado.setText("Estado: " + obtenerEstadoJugador(jugador));
     }
 
+    // metodo para limpiar un panel de informacion de un jugador ocultandolo y reseteando sus labels a valores por defecto
     private void limpiarPanel(VBox panel, Label lblNombre, Label lblDinero,
         Label lblCapital, Label lblPosicion, Label lblEstado) {
         panel.setVisible(false);
@@ -267,14 +293,19 @@ public class GameController {
         lblEstado.setText("Estado: -");
     }
 
+    // metodo para mostrar un mensaje en el area de log agregando una nueva linea al final
     private void log(String mensaje) {
         txtLog.appendText(mensaje + "\n");
     }
 
+    // metodos para manejar las acciones de compra, pago de renta y mejoras segun el tipo de casilla donde cayo el jugador, 
+    // mostrando alertas de confirmacion para jugadores humanos y tomando decisiones automaticas para bots
     private void manejarPropiedad(Jugador jugador, Propiedad propiedad, int dineroAntes) {
 
+    // si la propiedad no tiene dueño, ofrecer la compra al jugador, mostrando una alerta de confirmacion con la informacion de la propiedad 
+    // y la renta actual segun el nivel de mejora, y tomando una decision automatica para bots basada en si tienen suficiente dinero 
+    // y un valor aleatorio para simular diferentes comportamientos de compra
     if (propiedad.getDueno() == null) {
-
         if (jugador.isBot()) {
             if (jugador.getDinero() >= propiedad.getPrecio()) {
                 propiedad.comprar(jugador);
@@ -283,6 +314,8 @@ public class GameController {
         } else {
             if (jugador.getDinero() >= propiedad.getPrecio()) {
 
+                // mostrar alerta de confirmacion con la informacion de la propiedad y la renta actual segun el nivel de mejora, 
+                // y preguntar si desea comprarla
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Comprar propiedad");
                 alert.setHeaderText(jugador.getNombre() + ", has caido en " + propiedad.getNombre());
@@ -300,6 +333,8 @@ public class GameController {
 
                 Optional<ButtonType> resultado = alert.showAndWait();
 
+                // si el jugador confirma la compra, ejecutar la logica de compra y mostrar un mensaje en el log, 
+                // sino mostrar un mensaje de que decidio no comprar
                 if (resultado.isPresent() && resultado.get() == btnComprar) {
                     propiedad.comprar(jugador);
                     log(jugador.getNombre() + " compro " + propiedad.getNombre() + " por $" + propiedad.getPrecio());
@@ -312,6 +347,8 @@ public class GameController {
         }
     }
 }
+    // si la propiedad tiene dueño y no es el jugador actual, calcular la renta segun el nivel de mejora, 
+    // ejecutar el pago de renta del jugador al dueño y mostrar un mensaje en el log con el monto pagado y el nombre del dueño
     private void manejarServicio(Jugador jugador, Servicio servicio) {
         if (servicio.getDueno() == null) {
 
@@ -323,6 +360,8 @@ public class GameController {
             } else {
                 if (jugador.getDinero() >= servicio.getPrecio()) {
 
+                    // mostrar alerta de confirmacion con la informacion del servicio y la renta actual segun la cantidad de servicios
+                    // que tenga el dueño, y preguntar si desea comprarlo
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Comprar servicio");;
                     alert.setHeaderText(jugador.getNombre() + ", has caido en " + servicio.getNombre());
@@ -339,6 +378,8 @@ public class GameController {
 
                     Optional<ButtonType> resultado = alert.showAndWait();
 
+                    // si el jugador confirma la compra, ejecutar la logica de compra y mostrar un mensaje en el log, 
+                    // sino mostrar un mensaje de que decidio no comprar
                     if (resultado.isPresent() && resultado.get() == btnComprar) {
                         servicio.comprar(jugador);
                         log(jugador.getNombre() + " compro el servicio " + servicio.getNombre() + " por $" + servicio.getPrecio());
@@ -350,7 +391,12 @@ public class GameController {
                 }
             }
         }
-    }
+    }   
+
+    // si la propiedad tiene dueño y es el jugador actual, ofrecer la mejora de la propiedad, mostrando una alerta de confirmacion 
+    // con la informacion de la propiedad, el costo de mejora segun el nivel actual y preguntando si desea mejorarla,
+    //  y tomando una decision automatica para bots basada en si tienen suficiente dinero, el nivel actual de mejora 
+    // y un valor aleatorio para simular diferentes comportamientos de mejora
     private void manejarMejoraPropiedad(Jugador jugador, Propiedad propiedad) {
         if (propiedad.getDueno() != jugador) {
             return;
@@ -368,6 +414,9 @@ public class GameController {
             return;
         }
 
+        // para bots, tomar una decision automatica basada en si tienen suficiente dinero, el nivel actual de mejora y un valor aleatorio
+        //  para simular diferentes comportamientos de mejora, donde si el bot tiene suficiente dinero para mejorar y el nivel actual es bajo, 
+        // tiene mas probabilidad de mejorar, y si el nivel actual es alto, tiene menos probabilidad de mejorar
         if (jugador.isBot()) {
             if (Math.random() < 0.5) {
                 propiedad.mejorar();
@@ -376,6 +425,8 @@ public class GameController {
             return;
         }
 
+        // mostrar alerta de confirmacion con la informacion de la propiedad, el costo de mejora segun el nivel actual y preguntando 
+        // si desea mejorarla
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Mejorar propiedad");
         alert.setHeaderText(jugador.getNombre() + ", caiste en tu propiedad");
@@ -401,6 +452,9 @@ public class GameController {
         }
     }
 
+
+    // metodo para mostrar una ventana de dialogo con un combo box para seleccionar un grupo de color y un area de texto para mostrar la informacion de las propiedades 
+    // de ese grupo, incluyendo el precio y la renta segun el nivel de mejora, actualizando la informacion cada vez que se selecciona un grupo diferente
     @FXML
     private void mostrarPreciosRentas() {
         Dialog<Void> dialog = new Dialog<>();
@@ -434,7 +488,9 @@ public class GameController {
         dialog.showAndWait();
     }
 
-
+    // metodo auxiliar para actualizar el texto del area de informacion de las propiedades segun el grupo de color seleccionado, 
+    // recorriendo todas las casillas del juego y filtrando las propiedades que pertenecen al grupo seleccionado, mostrando su nombre, 
+    // precio y renta segun el nivel de mejora
     private void actualizarTextoGrupo(String colorSeleccionado, TextArea txtInfo) {
         StringBuilder sb = new StringBuilder();
 
@@ -464,13 +520,20 @@ public class GameController {
         txtInfo.setText(sb.toString());
     }
 
+    // metodo para manejar la casilla de oportunidad de negocio, ofreciendo al jugador la posibilidad de mejorar una de sus propiedades con un 50% de descuento 
+    // en el costo de mejora, mostrando una alerta de confirmacion con la informacion de las propiedades que pueden ser mejoradas y el costo con descuento,
+    //  y tomando una decision automatica para bots basada en si tienen suficiente dinero, el nivel actual de mejora y 
+    // un valor aleatorio para simular diferentes comportamientos de mejora
     private void manejarOportunidadNegocio(Jugador jugador) {
 
         if (jugador.getPropiedades().isEmpty()) {
             log(jugador.getNombre() + " cayo en Inapa, pero no tiene propiedades para mejorar.");
             return;
-        }
+        }   
 
+        // para bots, tomar una decision automatica basada en si tienen suficiente dinero, el nivel actual de mejora y un valor aleatorio para simular diferentes
+        //  comportamientos de mejora, donde si el bot tiene suficiente dinero para mejorar y el nivel actual es bajo, tiene mas probabilidad de mejorar, 
+        // y si el nivel actual es alto, tiene menos probabilidad de mejorar, aplicando la mejora directamente sin mostrar una alerta
         if (jugador.isBot()) {
             for (Propiedad p : jugador.getPropiedades()) {
                 if (p.getNivelMejora() < 3) {
@@ -490,7 +553,7 @@ public class GameController {
             log(jugador.getNombre() + " cayo en Inapa, pero no pudo mejorar ninguna propiedad.");
             return;
         }
-
+        // mostrar alerta de confirmacion con la informacion de las propiedades que pueden ser mejoradas y el costo con descuento, y preguntar si desea mejorar alguna
         ChoiceDialog<String> dialog = new ChoiceDialog<>();
         dialog.setTitle("Oportunidad de negocio");
         dialog.setHeaderText(jugador.getNombre() + " cayo en Inapa");
@@ -535,6 +598,7 @@ public class GameController {
         }
     }
 
+    // metodo auxiliar para obtener el costo de mejora segun el nivel actual de mejora de una propiedad, retornando un valor fijo para cada nivel
     private int obtenerCostoMejoraSegunNivel(int nivelActual) {
         switch (nivelActual) {
             case 0:
@@ -548,6 +612,8 @@ public class GameController {
         }
     }
 
+    // metodo auxiliar para aumentar el nivel de mejora de una propiedad directamente sin pasar por el metodo mejorar(), utilizado para aplicar la mejora de Oportunidad Negocio
+    //  con descuento, accediendo al campo privado nivelMejora mediante reflexion para modificar su valor
     private void aumentarNivelDirecto(Propiedad propiedad) {
         try {
             java.lang.reflect.Field field = Propiedad.class.getDeclaredField("nivelMejora");
@@ -562,9 +628,12 @@ public class GameController {
         }
     }
 
+    // metodo para actualizar el estilo de los paneles de informacion de los jugadores, aplicando el color del jugador a la barra lateral del panel, 
+    // resaltando el panel del jugador actual con un borde mas grueso y un fondo diferente, y reseteando el estilo de los paneles de jugadores 
+    // que no estan en juego o que no son el jugador actual
     private void actualizarEstiloPaneles() {
         java.util.List<Jugador> jugadores = juego.getJugadores();
-
+        
         resetearPanel(panelJugador1, barraJ1);
         resetearPanel(panelJugador2, barraJ2);
         resetearPanel(panelJugador3, barraJ3);

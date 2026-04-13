@@ -16,6 +16,10 @@ public class CasillaEvento extends Casilla {
         return ultimoMensaje;
     }
 
+    // al caer en una casilla de evento, se genera un numero aleatorio entre 0 y 7 para determinar el tipo de evento que ocurrira, 
+    // y se ejecuta la accion correspondiente segun el caso, como recibir o pagar dinero, mover o retroceder casillas,
+    //  ser movido a una casilla especifica, o ser enviado a la carcel por un turno, 
+    // y se guarda un mensaje descriptivo del evento ocurrido para mostrarlo al jugador
     @Override
     public void ejecutarAccion(Jugador jugador, Juego juego) {
 

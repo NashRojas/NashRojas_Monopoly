@@ -19,7 +19,7 @@ public class Juego {
     }
 
 
-
+    // metodo para agregar un jugador al juego, recibiendo el jugador como parametro y añadiendolo a la lista de jugadores
     public void agregarJugador(Jugador jugador) {
         jugadores.add(jugador);
     }
@@ -31,8 +31,6 @@ public class Juego {
     public List<Jugador> getJugadores() {
         return jugadores;
     }
-
-
 
     public void setCasilla(int posicion, Casilla casilla) {
         tablero[posicion] = casilla;
@@ -46,6 +44,7 @@ public class Juego {
         return random.nextInt(6) + 1;
     }
 
+    // metodo para mover a un jugador una cantidad de pasos determinada, recibiendo el jugador y los pasos como parametros, calculando la nueva posicion del jugador sumando los pasos a su posicion actual y aplicando el modulo 40 para que no se pase del tablero, verificando si el jugador paso por la casilla de salida para recibir $200, actualizando la posicion del jugador, obteniendo la casilla correspondiente a la nueva posicion y ejecutando su accion, y luego verificando si algun jugador quedo en bancarrota para eliminarlo del juego
     public void moverJugador(Jugador jugador, int pasos) {
 
         int posicionAnterior = jugador.getPosicion();
@@ -104,6 +103,9 @@ public class Juego {
         } while (jugadores.get(turnoActual).estaEnBancarrota());
     }
 
+    // metodo para verificar si algun jugador quedo en bancarrota, recorriendo la lista de jugadores y comprobando si cada uno esta en bancarrota,
+    //  y si es asi, liberando sus propiedades y servicios para que puedan ser comprados por otros jugadores, 
+    // y luego eliminando al jugador de la lista de jugadores activos
         public void verificarBancarrota() {
 
         List<Jugador> eliminados = new ArrayList<>();
@@ -127,7 +129,7 @@ public class Juego {
 
         jugadores.removeAll(eliminados);
     }
-
+        // metodo para obtener una lista de todas las propiedades del juego, recorriendo el arreglo de casillas del tablero y añadiendo a la lista las casillas que sean instancias de Propiedad, y devolviendo la lista de propiedades disponibles en el juego
         public List<Servicio> getServicios() {
         List<Servicio> servicios = new ArrayList<>();
 
@@ -144,6 +146,7 @@ public class Juego {
         return jugadores.size() == 1 || alguienLlegoA7000();
     }
 
+    // metodo para verificar si algun jugador ha alcanzado o superado un capital de $7000, recorriendo la lista de jugadores y calculando su capital sumando su dinero en efectivo y el valor de sus propiedades y servicios, y devolviendo true si algun jugador cumple con esta condicion, o false en caso contrario
     private boolean alguienLlegoA7000() {
         for (Jugador j : jugadores) {
             if (calcularCapital(j) >= 7000) {

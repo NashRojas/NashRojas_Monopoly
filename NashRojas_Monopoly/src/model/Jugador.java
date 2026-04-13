@@ -14,7 +14,7 @@ public class Jugador {
 
     private List<Propiedad> propiedades;
     private List<Servicio> servicios;
-
+    
     public Jugador(String nombre, boolean esBot, String color) {
         this.nombre = nombre;
         this.dinero = 1000; 
@@ -27,6 +27,8 @@ public class Jugador {
         this.servicios = new ArrayList<>();
     }
 
+    // metodo para mover al jugador una cantidad de pasos determinada, actualizando su posicion en el tablero y 
+    // verificando si paso por la casilla de salida para recibir $200, y luego ejecutando la accion de la casilla en la que cayo
     public void mover(int pasos) {
     posicion = (posicion + pasos) % 40;
     if (posicion < 0) {

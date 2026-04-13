@@ -9,6 +9,8 @@ public class Impuesto extends Casilla {
         this.monto = monto;
     }
 
+    // al caer en una casilla de impuesto, el jugador debe pagar el monto especificado al banco, 
+    // y se muestra un mensaje indicando que el jugador ha pagado el impuesto
     @Override
     public void ejecutarAccion(Jugador jugador, Juego juego) {
         jugador.pagar(monto);

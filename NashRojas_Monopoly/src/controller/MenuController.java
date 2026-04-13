@@ -9,27 +9,36 @@ import model.*;
 import java.io.IOException;
 
 public class MenuController {
+    // Spinner para elegir cuantos jugadroes reales y bots van a jugar
     @FXML
     private Spinner<Integer> spnHumanos;
     @FXML
     private Spinner<Integer> spnBots;
+
+    // Label para mostrar errores de validacion EN EL MENU
     @FXML
     private Label lblError;
 
+
+    // Inicializa los spinners con valores minimos, maximos y por defecto (por eso carga con el menu por el FXML)
     @FXML
     private void initialize() {
         spnHumanos.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 4, 2));
         spnBots.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 3, 0));
     }
 
+    // aca es donde se "inicia" el juego, se valida que haya al menos 2 jugadores y maximo 4, se crea el juego, 
+    // se agregan los jugadores y se carga la vista del tablero
     @FXML
     private void iniciarJuego() {
 
+        // se lee los valores seleccionados en los spinners
         int humanos = spnHumanos.getValue();
         int bots = spnBots.getValue();
 
         int total = humanos + bots;
 
+        // validacion de cantidad de jugadores
         if (total < 2) {
             lblError.setText("Debe haber al menos 2 jugadores.");
             return;
@@ -40,6 +49,7 @@ public class MenuController {
             return;
         }
 
+        // Si la validacion es correcta, se crea el juego, se agregan los jugadores y se carga la vista del tablero
         try {
             
             Juego juego = new Juego();
@@ -74,6 +84,8 @@ public class MenuController {
         }
     }
 
+
+    // Muestra un alert con las reglas basicas del juego
     @FXML
     private void mostrarReglas() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -91,6 +103,9 @@ public class MenuController {
         alert.showAndWait();
     }
 
+
+    // Este metodo es el encargado de inicializar el tablero con las casillas correspondientes, se llama desde el metodo iniciarJuego() 
+    // despues de crear el juego y antes de cargar la vista del tablero
     private void iniciarTablero(Juego juego) {
         juego.setCasilla(0, new Salida(0, "Salida"));
 

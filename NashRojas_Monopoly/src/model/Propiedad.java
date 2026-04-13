@@ -17,6 +17,10 @@ public class Propiedad extends Casilla {
         this.nivelMejora = 0;
     }
 
+    // al caer en una casilla de propiedad, si la propiedad no tiene dueño, el jugador puede comprarla pagando su precio, 
+    // y se muestra un mensaje indicando que el jugador ha comprado la propiedad, si la propiedad tiene dueño y no es el jugador que cayó, 
+    // el jugador debe pagar la renta calculada al dueño, y se muestra un mensaje indicando que el jugador ha pagado la renta al dueño, 
+    // y si la propiedad tiene dueño y es el jugador que cayó, no se hace nada
     @Override
     public void ejecutarAccion(Jugador jugador, Juego juego) {
         if (dueno == null) {

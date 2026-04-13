@@ -14,23 +14,33 @@ import model.*;
 
 public class TableroController {
     
+    //  controlador para dibujar el tablero de juego, mostrando las casillas con su nombre, precio y renta segun el tipo de casilla, 
+    // y actualizando la posicion de los jugadores en el tablero cada vez que se mueven, 
+    // utilizando un GridPane para organizar las casillas y un StackPane para mostrar las fichas de los jugadores en cada casilla, 
+    // con estilos personalizados para cada tipo de casilla y para los jugadores
     @FXML
     private GridPane gridTablero;
 
     private Juego juego;
 
+    // metodo para establecer el juego en el controlador, asignando el juego recibido al campo privado y llamando al metodo para dibujar el tablero 
+    // con la informacion del juego
     public void setJuego(Juego juego) {
         this.juego = juego;
         dibujarTablero();
     }
 
+    // metodo para dibujar el tablero de juego, recorriendo las casillas del juego en el orden correcto para colocarlas en el GridPane, 
+    // y llamando a un metodo auxiliar para agregar cada casilla al GridPane con su informacion y estilo correspondiente, 
+    // y luego llamando a otro metodo para dibujar el centro del tablero con el titulo del juego
     private void dibujarTablero() {
 
         gridTablero.getChildren().clear();
 
         int index = 0;
 
-
+        // se recorre el tablero en sentido antihorario, empezando por la casilla 0 en la esquina inferior derecha, 
+        // y se llama al metodo agregarCasilla para cada casilla del juego,
         for (int col = 0; col < 11; col++) {
             agregarCasilla(index++, 10, col);
         }
@@ -53,6 +63,8 @@ public class TableroController {
         dibujarCentroTablero();
     }
 
+    // metodo auxiliar para dibujar el centro del tablero con un StackPane que contiene un VBox con el titulo y subtitulo del juego, 
+    // aplicando estilos personalizados para el fondo, borde y texto del centro del tablero, y agregando el StackPane al GridPane en la posicion central del tablero
     private void dibujarCentroTablero() {
         StackPane centro = new StackPane();
 
@@ -73,6 +85,10 @@ public class TableroController {
         gridTablero.add(centro, 1, 1, 9, 9);
     }
 
+    // metodo auxiliar para agregar una casilla al GridPane en la posicion especificada, obteniendo la informacion de la casilla del juego segun su posicion, 
+    // creando un VBox con el nombre, precio y renta de la casilla segun su tipo, aplicando estilos personalizados para cada tipo de casilla 
+    // y para el propietario de la casilla si es una propiedad o servicio, y luego agregando el VBox a un StackPane con un borde y fondo personalizado,
+    //  y finalmente agregando el StackPane al GridPane en la fila y columna especificadas
     private void agregarCasilla(int posicion, int fila, int columna) {
 
         Casilla casilla = juego.getCasilla(posicion);
@@ -155,6 +171,8 @@ public class TableroController {
             contenido.setAlignment(Pos.CENTER);
         } 
 
+        // para las casillas de servicio, se muestra el precio de compra si no tiene dueño, o la renta calculada segun el numero de servicios que tenga 
+        // el dueño si ya tiene dueño, y se aplica el color del dueño a la barra superior del panel, o se deja transparente si no tiene dueño
         else if (casilla instanceof Servicio) {
             Servicio s = (Servicio) casilla;
 
@@ -224,6 +242,11 @@ public class TableroController {
         gridTablero.add(celda, columna, fila);
     }
 
+    // metodo para actualizar la posicion de los jugadores en el tablero, recibiendo la lista de jugadores actualizada, limpiando las fichas de los jugadores del GridPane, 
+    // volviendo a dibujar el tablero para refrescar la informacion de las casillas, obteniendo las posiciones de cada casilla en el GridPane segun el orden del tablero,
+    //  y luego recorriendo la lista de jugadores para crear una ficha para cada jugador y agregarla al GridPane en la posicion correspondiente segun su posicion en el juego,
+    //  utilizando un StackPane para mostrar la ficha del jugador con su color y una etiqueta con su inicial, 
+    // y agrupando las fichas de los jugadores que estan en la misma casilla en un HBox para evitar que se superpongan
     public void actualizarJugadores(java.util.List<Jugador> jugadores){
 
         gridTablero.getChildren().clear();
@@ -262,6 +285,8 @@ public class TableroController {
         }
     }
 
+    // metodo auxiliar para obtener las posiciones de cada casilla en el GridPane segun el orden del tablero, devolviendo un arreglo de enteros con las filas y 
+    // columnas correspondientes a cada posicion del juego, empezando por la casilla 0 en la esquina inferior derecha y recorriendo el tablero en sentido antihorario
     private int[][] obtenerPosiciones(){
         return new int[][] {
             {10,0}, {10,1}, {10,2}, {10,3}, {10,4}, {10,5}, {10,6}, {10,7}, {10,8}, {10,9}, {10,10},
@@ -274,6 +299,8 @@ public class TableroController {
         };
     }
 
+    // metodo auxiliar para crear una ficha para un jugador, recibiendo el jugador como parametro, creando un circulo con el color del jugador y una etiqueta con 
+    // la inicial de su nombre, aplicando estilos personalizados para la ficha del jugador, y devolviendo un StackPane que contiene el circulo y la etiqueta superpuestos
     private StackPane crearFichaJugador(Jugador jugador) {
         Circle circulo = new Circle(10);
 
